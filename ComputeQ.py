@@ -83,6 +83,6 @@ def computeQ(input_file):
         print(b1, b2) 
         
 #Iterate through all lammps dump files in input directory
-list_file = sorted(glob.glob(inDir+'*/Input/**/*.trj'))
+list_file = sorted(glob.glob(inDir+'*/Input/**/*.trj', recursive=True))
 for input_file in list_file:
     computeQ(input_file)

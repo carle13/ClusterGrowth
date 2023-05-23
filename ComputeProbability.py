@@ -8,6 +8,7 @@ import os.path
 import sys
 from sklearn.mixture import GaussianMixture as GM
 
+#python3 ComputeProbability.py 2_Relaxation/
 inDir = os.path.join(sys.argv[1], '')
 
 def readQ(input_file):
@@ -35,8 +36,17 @@ print('Number of clusters used in the model: ', numDirs)
 
 
 #Creating and training the GM model
+dirModel = '0_GMModel/Voronoi/'
 model = GM(numDirs, n_init=20)
-model.fit(X)
+if not os.path.exists('0_GMModel/Voronoi/weights.npy'):
+    model.fit(X)
+else:
+    means = np.load(dirModel+'means.npy')
+    covar = np.load(dirModel+'covariances.npy')
+    model.precisions_cholesky_ = np.linalg.cholesky(np.linalg.inv(covar))
+    model.weights_ = np.load(dirModel+'weights.npy')
+    model.means_ = means
+    model.covariances_ = covar
 
 #Test and identify clusters
 clusterIDs = ['']*len(categories)
@@ -54,6 +64,13 @@ for i in range(len(clusterIDs)):
         print('Not all clusters have been recognized!')
         exit()
 print('Identified clusters: ', clusterIDs)
+
+#Save successfully trained model
+if not os.path.exists('0_GMModel/Voronoi/weights.npy'):
+    os.makedirs('0_GMModel/Voronoi/', exist_ok=True)
+    np.save(dirModel+'weights.npy', model.weights_, allow_pickle=False)
+    np.save(dirModel+'means.npy', model.means_, allow_pickle=False)
+    np.save(dirModel+'covariances.npy', model.covariances_, allow_pickle=False)
 
 
 # Compute probabilities for each atom and write to output file
@@ -84,6 +101,6 @@ def computeProbabilityPerAtom(input_file):
     # print(input_file,np.mean(D_WRZ),np.mean(D_BCT),np.mean(D_MC),np.mean(D_SC))
 
 #Iterate through all files in Q directory
-list_file = sorted(glob.glob(inDir+'*/QValues/**/*.Q.trj'))
+list_file = sorted(glob.glob(inDir+'*/QValues/**/*.Q.trj', recursive=True))
 for input_file in list_file:
     computeProbabilityPerAtom(input_file)

@@ -6,6 +6,12 @@ import os.path
 import sys
 import re
 
+import ovito
+from ovito.io import *
+from ovito.modifiers import *
+from ovito.data import *
+from ovito.pipeline import *
+
 #Natural sorting
 def atoi(text):
     return int(text) if text.isdigit() else text
