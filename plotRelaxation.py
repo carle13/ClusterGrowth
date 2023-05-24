@@ -7,6 +7,7 @@ import os
 import os.path
 import sys
 import re
+import matplotlib.transforms as transforms
 
 import ovito
 from ovito.io import *
@@ -50,16 +51,19 @@ for d in directories:
     t = np.array(t)
 
     crystal, temperature = re.findall(r"\w+K", d)[0].split('_')
+    _, inserted = re.findall(r"N_\w+", d)[0].split('_')
     plt.figure()
-    plt.title('Cluster size '+crystal+' (Non-liquid at '+temperature+')')
+    plt.title('Cluster size '+crystal+' (Non-liquid at '+temperature+')\nInserted atoms: '+inserted)
     plt.xlabel('t / ps')
     plt.ylabel('N')
     plt.axvline(8000, ls='-.', color='black', alpha=0.5)
     plt.axvline(16000, ls='-.', color='black', alpha=0.5)
-    plt.text(8000-2000, 68, 'Step 1')
-    plt.text(16000-2000, 68, 'Step 2')
+    ax = plt.gca()
+    trans = transforms.blended_transform_factory(ax.transData, ax.transAxes)
+    plt.text(8000-1800, 0.99, 'Step 1', va='top', transform=trans)
+    plt.text(16000-1800, 0.99, 'Step 2', va='top', transform=trans)
     plt.plot(t, nC[d])
     plt.axhline(nC[d][-1], 0, 16000, ls='--', color='black')
-    plt.text(0, nC[d][-1]+1, '$N_c = '+str(nC[d][-1])+'$')
+    plt.text(16000-150, nC[d][-1]+1, '$N_c = '+str(nC[d][-1])+'$', ha='right')
     #plt.legend()
     plt.savefig(d+'relaxation'+temperature+'.png')
