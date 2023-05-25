@@ -37,7 +37,7 @@ print('Number of clusters used in the model: ', numDirs)
 
 #Creating and training the GM model
 dirModel = '0_GMModel/Voronoi/'
-model = GM(numDirs, n_init=20)
+model = GM(numDirs, n_init=100)
 if not os.path.exists('0_GMModel/Voronoi/weights.npy'):
     model.fit(X)
 else:
