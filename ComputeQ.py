@@ -16,6 +16,7 @@ from ovito.data import *
 from ovito.pipeline import *
 
 #python3 ComputeQ.py 2_Relaxation/
+#python3 ComputeQ.py 0_Database/
 inDir = os.path.join(sys.argv[1], '')
 
 def computeQ(input_file):
@@ -84,5 +85,10 @@ def computeQ(input_file):
         
 #Iterate through all lammps dump files in input directory
 list_file = sorted(glob.glob(inDir+'*/Input/**/*.trj', recursive=True))
+for input_file in list_file:
+    computeQ(input_file)
+
+#Iterate through all lammps dump files in input directory
+list_file = sorted(glob.glob(inDir+'Input/**/*.trj', recursive=True))
 for input_file in list_file:
     computeQ(input_file)

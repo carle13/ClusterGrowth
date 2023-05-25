@@ -163,4 +163,4 @@ cython_debug/
 #ignore output files
 *.Q.trj
 *.PROB.trj
-!0_DatabaseQ2LowTempVoronoi/*/*.Q.trj
+!0_Database/*/*.Q.trj

@@ -20,7 +20,7 @@ categories = []
 testStructure = []
 numDirs = 0
 X = np.empty((0,14))
-for base, dirs, files in os.walk('0_DatabaseQ2LowTempVoronoi/'):
+for base, dirs, files in os.walk('0_Database/QValues/'):
     numDirs += len(dirs)
     for directories in dirs:
         list_file = sorted(glob.glob(base+directories+"/*Q.trj"))
