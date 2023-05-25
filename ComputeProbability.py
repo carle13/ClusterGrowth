@@ -104,3 +104,8 @@ def computeProbabilityPerAtom(input_file):
 list_file = sorted(glob.glob(inDir+'*/QValues/**/*.Q.trj', recursive=True))
 for input_file in list_file:
     computeProbabilityPerAtom(input_file)
+
+#Iterate through all files in Q directory
+list_file = sorted(glob.glob(inDir+'QValues/**/*.Q.trj', recursive=True))
+for input_file in list_file:
+    computeProbabilityPerAtom(input_file)
