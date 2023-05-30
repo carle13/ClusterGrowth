@@ -24,7 +24,9 @@ def computeQ(input_file):
     output_file = input_file.replace('Input', 'QValues')
     output_file = output_file.replace(".trj", ".Q.trj")
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
-    
+    if os.path.exists(output_file):
+        print(input_file, '   Continued')
+        return
     print(input_file)
 
     #Compute coordination numbers and write to file
