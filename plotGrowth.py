@@ -60,23 +60,25 @@ for d in directories:
             pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
             data = pipeline.compute()
             nC[dirRelax].append(data.attributes['ClusterAnalysis.largest_size'])
-    t = np.array(t)
+    t = np.array(t) / 1000
 
+    #Get values for title and figure name
     crystal, temperature = re.findall(r"\w+K", dirRelax)[0].split('_')
     _, inserted = re.findall(r"N_\w+", dirRelax)[0].split('_')
+    #Draw plot
     plt.figure()
     plt.title('Cluster size '+crystal+' (Non-liquid at '+temperature+')\nInserted atoms: '+inserted)
     plt.xlabel('t / ps')
     plt.ylabel('N')
-    plt.axvline(8000, ls='-.', color='black', alpha=0.5)
-    plt.axvline(16000, ls='-.', color='black', alpha=0.5)
+    plt.axvline(8, ls='-.', color='black', alpha=0.5)
+    plt.axvline(16, ls='-.', color='black', alpha=0.5)
     ax = plt.gca()
     trans = transforms.blended_transform_factory(ax.transData, ax.transAxes)
-    plt.text(8000-6000, 0.99, 'Step 1', va='top', transform=trans)
-    plt.text(16000-6000, 0.99, 'Step 2', va='top', transform=trans)
+    plt.text(8-6, 0.99, 'Step 1', va='top', transform=trans)
+    plt.text(16-6, 0.99, 'Step 2', va='top', transform=trans)
     plt.plot(t, nC[dirRelax])
-    plt.axhline(nC[dirRelax][-1], 0, 50000, ls='--', color='black')
-    plt.text(16000-200, nC[dirRelax][-1]+3, '$N_c = '+str(nC[dirRelax][-1])+'$', ha='right')
+    plt.axhline(nC[dirRelax][-1], 0, 50, ls='--', color='black')
+    plt.text(16-0.2, nC[dirRelax][-1]+3, '$N_c = '+str(nC[dirRelax][-1])+'$', ha='right')
 
     
     #Plotting NVT simulations at different temperatures
@@ -88,7 +90,7 @@ for d in directories:
         nT[dT] = []
         t2[dT] = []
         for f in files:
-            t2[dT].append(int(os.path.basename(f).replace('dump', '').replace('.PROB.trj', ''))+16000)
+            t2[dT].append(int(os.path.basename(f).replace('dump', '').replace('.PROB.trj', ''))/1000+16)
             #Open file and count number of atoms
             pipeline = import_file(f, multiple_frames=True)
             pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
