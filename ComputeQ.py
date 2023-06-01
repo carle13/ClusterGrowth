@@ -19,6 +19,9 @@ from ovito.pipeline import *
 #python3 ComputeQ.py 0_Database/
 inDir = os.path.join(sys.argv[1], '')
 
+#List of q parameters to be computed
+qOrders = [2,3,4,5,6,7,8]
+
 def computeQ(input_file):
     #Get name of output file
     output_file = input_file.replace('Input', 'QValues')
@@ -39,8 +42,8 @@ def computeQ(input_file):
     sys = pc.System()
     sys.read_inputfile(input_file)
     sys.find_neighbors(method='voronoi')
-    sys.calculate_q([2,3,4,5,6,7,8], averaged=True)
-    q = sys.get_qvals([2,3,4,5,6,7,8], averaged=True)
+    sys.calculate_q(qOrders, averaged=True)
+    q = sys.get_qvals(qOrders, averaged=True)
     q=np.array(q)
     
     Zn=[ i for i in sys.atoms if i.type==2]
@@ -48,8 +51,8 @@ def computeQ(input_file):
     sysZn.read_inputfile(input_file)
     sysZn.atoms=Zn
     sysZn.find_neighbors(method='voronoi')
-    sysZn.calculate_q([2,3,4,5,6,7,8], averaged=True)
-    qZn=sysZn.get_qvals([2,3,4,5,6,7,8], averaged=True)
+    sysZn.calculate_q(qOrders, averaged=True)
+    qZn=sysZn.get_qvals(qOrders, averaged=True)
     qZn=np.array(qZn)
     
     Ox=[ i for i in sys.atoms if i.type==1]
@@ -57,8 +60,8 @@ def computeQ(input_file):
     sysOx.read_inputfile(input_file)
     sysOx.atoms=Ox
     sysOx.find_neighbors(method='voronoi')
-    sysOx.calculate_q([2,3,4,5,6,7,8], averaged=True)
-    qOx=sysOx.get_qvals([2,3,4,5,6,7,8], averaged=True)
+    sysOx.calculate_q(qOrders, averaged=True)
+    qOx=sysOx.get_qvals(qOrders, averaged=True)
     qOx=np.array(qOx)
     
     b1 = 0 #Counter for oxygen

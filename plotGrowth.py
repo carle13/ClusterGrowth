@@ -28,7 +28,7 @@ def natural_keys(text):
     return [ atoi(c) for c in re.split(r'(\d+)', text) ]
 
 
-directories = sorted(glob.glob('4_Growth/*/Output/', recursive=True))
+directories = sorted(glob.glob('5_Growth/*/Output/', recursive=True))
 directories.sort(key=natural_keys)
 
 #Variables relaxation part
