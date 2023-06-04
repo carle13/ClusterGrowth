@@ -24,17 +24,24 @@ for d in directories:
 for d in directories:
     t = []
     for i in range(1, 3):
-        for b in range(5):
-            if i == 1:
+        if i == 1:
+            for b in range(5):
                 t.append(b*1000)
-            elif i == 2:
+                #Count particles belonging to the cluster
+                pipeline = import_file(d+'step'+str(i)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
+                pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
+                pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
+                data = pipeline.compute()
+                nC[d].append(data.attributes['ClusterAnalysis.largest_size'])
+        if i == 2:
+            for b in range(13):
                 t.append(b*1000 + 4000)
-            #Count particles belonging to the cluster
-            pipeline = import_file(d+'step'+str(i)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
-            pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
-            pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
-            data = pipeline.compute()
-            nC[d].append(data.attributes['ClusterAnalysis.largest_size'])
+                #Count particles belonging to the cluster
+                pipeline = import_file(d+'step'+str(i)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
+                pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
+                pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
+                data = pipeline.compute()
+                nC[d].append(data.attributes['ClusterAnalysis.largest_size'])
     t = np.array(t) / 1000
 
     #Get values for title and figure name

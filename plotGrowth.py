@@ -28,7 +28,7 @@ def natural_keys(text):
     return [ atoi(c) for c in re.split(r'(\d+)', text) ]
 
 
-directories = sorted(glob.glob('5_Growth/*/Output/', recursive=True))
+directories = sorted(glob.glob('3_Growth/*/Output/', recursive=True))
 directories.sort(key=natural_keys)
 
 #Variables relaxation part
@@ -41,9 +41,9 @@ t2 = dict()
 
 for d in directories:
     #Get directory of corresponding relaxation
-    dirRelax = d.replace('4_Growth', '2_Relaxation')
+    dirRelax = d.replace('3_Growth', '2_RelaxDnvt')
     crystal, inserted = re.findall(r"\w+N", dirRelax)[0].split('_')
-    dirRelax = dirRelax.replace(crystal+'_'+inserted, crystal+'_800K')
+    dirRelax = dirRelax.replace(crystal+'_'+inserted, crystal+'_1350K')
     dirRelax = dirRelax + 'N_'+inserted[:-1]+'/'
     nC[dirRelax] = []
     #Plotting relaxation part

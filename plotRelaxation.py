@@ -15,7 +15,7 @@ from ovito.modifiers import *
 from ovito.data import *
 from ovito.pipeline import *
 
-directories = sorted(glob.glob('2_Relaxation/*/Output/N_*/', recursive=True))
+directories = sorted(glob.glob('2_RelaxDnvt/*/Output/N_*/', recursive=True))
 nC = dict()
 t = []
 for d in directories:
