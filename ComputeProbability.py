@@ -79,7 +79,10 @@ def computeProbabilityPerAtom(input_file):
     output_file = input_file.replace(".Q", ".PROB")
     output_file = output_file.replace('QValues', 'Output')
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
-    print(output_file)
+    if os.path.exists(output_file):
+        print(input_file, '   Continued')
+        return
+    print(input_file)
     # Read q values from input files
     pos=np.genfromtxt(input_file,skip_header=9)
     q=pos[:,6:]

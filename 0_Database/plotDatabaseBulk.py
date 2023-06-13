@@ -35,7 +35,7 @@ def readQ(input_file):
 
 testStructure = []
 dataPoints = dict()
-for base, dirs, files in os.walk('QValues/'):
+for base, dirs, files in os.walk('QValuesAverage/'):
     for directories in dirs:
         if 'surf' in directories:
             continue
@@ -74,4 +74,4 @@ for i in range(14):
         else:
             axs[i, b].set_ylabel('q'+str(b+2-7)+' mono')
         print(i, b)
-fig.savefig('databaseQ.png', bbox_inches='tight')
+fig.savefig('databaseQAverage.png', bbox_inches='tight')
