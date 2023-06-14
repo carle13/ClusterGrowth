@@ -123,7 +123,7 @@ for d in directories:
         # plt.plot(t2['outputVoronoi/step900K'], nT['outputVoronoi/step900K'], label='900K')
         # plt.plot(t2s['outputVoronoi/step900Seeds/900K_1'], averageSeeds, label='Seeds 900')
         # plt.fill_between(t2s['outputVoronoi/step900Seeds/900K_1'], averageSeeds-deviationSeeds, averageSeeds+deviationSeeds, alpha=0.5, color='green')
-    plt.ylim([0, 450])
+    plt.ylim([0, 550])
     plt.legend()
     plt.savefig(d+'growthR1350K.png')
 
