@@ -164,3 +164,6 @@ cython_debug/
 *.Q.trj
 *.PROB.trj
 !0_Database/*/*.Q.trj
+
+#Visual studio code
+.vscode
