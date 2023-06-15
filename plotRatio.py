@@ -1,0 +1,124 @@
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import glob
+import os
+import os.path
+import sys
+import re
+import matplotlib.transforms as transforms
+
+import ovito
+from ovito.io import *
+from ovito.modifiers import *
+from ovito.data import *
+from ovito.pipeline import *
+
+#Natural sorting
+def atoi(text):
+    return int(text) if text.isdigit() else text
+
+def natural_keys(text):
+    '''
+    alist.sort(key=natural_keys) sorts in human order
+    http://nedbatchelder.com/blog/200712/human_sorting.html
+    (See Toothy's implementation in the comments)
+    '''
+    return [ atoi(c) for c in re.split(r'(\d+)', text) ]
+
+
+#Variables growth part
+ratio = []
+sRatio = []
+t2 = []
+    
+dirSeeds = glob.glob('3_GrowthRandom/WRZ_390N/Output/T_1500K/seed*/')
+dirSeeds.sort(key=natural_keys)
+# Get temperature values
+files = glob.glob(dirSeeds[0]+'dump*.PROB.trj')
+files.sort(key=natural_keys)
+for f in files:
+    t2.append(int(os.path.basename(f).replace('dump', '').replace('.PROB.trj', ''))/1000+16)
+# Read cluster sizes for different seeds and compute average
+nSurf = []
+nSeed = []
+for dS in dirSeeds:
+    files = glob.glob(dS+'dump*.PROB.trj')
+    files.sort(key=natural_keys)
+    nWRZ = []
+    nBCTHBN = []
+    for f in files:
+        #Open file and count number of atoms
+        pipeline = import_file(f, multiple_frames=True)
+        pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
+        pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
+        pipeline.modifiers.append(ExpressionSelectionModifier(expression='pwrz > 0.5  && Cluster == 1'))
+        data = pipeline.compute()
+        nWRZ.append(data.attributes['ExpressionSelection.count.2'])
+        #Open file and count number of atoms
+        pipeline = import_file(f, multiple_frames=True)
+        pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
+        pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
+        pipeline.modifiers.append(ExpressionSelectionModifier(expression='pbct > 0.5  ||  phbn > 0.5  && Cluster == 1'))
+        data = pipeline.compute()
+        nBCTHBN.append(data.attributes['ExpressionSelection.count.2'])
+    nSeed.append(nWRZ)
+    nSurf.append(nBCTHBN)
+
+nSeed = np.array(nSeed)
+nSurf = np.array(nSurf)
+division = nSeed / nSurf
+ratio = np.mean(division, axis=0)
+sRatio = np.std(division, axis=0)
+
+plt.figure()
+plt.title('Ratio of $N_{WRZ}$ by $N_{BCT-HBN}$')
+plt.xlabel('$t$ / ps')
+plt.ylabel('$N$')
+line = plt.plot(t2, ratio)
+plt.fill_between(t2, ratio+sRatio, ratio-sRatio, alpha=0.25, color=line[0]._color)
+# print('plotting: '+str(dT)+'         last value: '+str(nT[dT]))
+# plt.plot(t2['outputVoronoi/step900K'], nT['outputVoronoi/step900K'], label='900K')
+# plt.plot(t2s['outputVoronoi/step900Seeds/900K_1'], averageSeeds, label='Seeds 900')
+# plt.fill_between(t2s['outputVoronoi/step900Seeds/900K_1'], averageSeeds-deviationSeeds, averageSeeds+deviationSeeds, alpha=0.5, color='green')
+#plt.ylim([0, 550])
+#plt.legend()
+plt.tight_layout()
+plt.savefig('ratioSurfaceWRZ.png')
+
+
+# #Plotting NVT simulations for different random seeds
+# nTs = dict()
+# t2s = dict()
+# tempDirs = glob.glob('outputVoronoi/step900Seeds/*')
+# tempDirs.sort(key=natural_keys)
+# for tt in tempDirs:
+#     nTs[tt] = []
+#     t2s[tt] = []
+# for dir in tempDirs:
+#     files = glob.glob(dir+'/dump*.PROB.trj')
+#     files.sort(key=natural_keys)
+#     for f in files:
+#         #Getting the number of column for the probability
+#         header = ''
+#         with open(d+'/step'+str(i)+'/dump'+str(b*1000)+'.PROB.trj') as file:
+#             for item in file:
+#                 if 'ITEM: ATOMS' in item:
+#                     header = item.split(' ')
+#                     break
+#         index = 0
+#         for s in range(len(header)):
+#             if 'pLIQ' in header[s]:
+#                 index = s - 2
+#                 break
+
+#         t2s[dir].append(int(os.path.basename(f).replace('dump', '').replace('.PROB.trj', ''))+16000)
+#         #Open file and count number of atoms
+#         a = np.genfromtxt(f, skip_header=9)
+#         nTs[dir].append(sum(x < 0.5 for x in a[:, index]))
+# seeds = []
+# for l in nTs:
+#     seeds.append(nTs[l])
+# averageSeeds = np.average(seeds, axis=0)
+# deviationSeeds = np.std(seeds, axis=0)

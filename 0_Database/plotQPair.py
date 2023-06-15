@@ -64,6 +64,7 @@ for s in range(len(testStructure)):
 plt.legend()
 plt.ylabel('$q_8$')
 plt.xlabel('$q_4$')
+plt.tight_layout()
 plt.savefig('qPairVoronoi.png')
 
 # fig, axs = plt.subplots(14, 14, figsize=(100, 100))

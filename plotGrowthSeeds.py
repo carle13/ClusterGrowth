@@ -76,21 +76,22 @@ for d in directories:
     plt.title('Cluster size '+crystal+' (Relaxed at '+temperature+')\nInserted atoms: '+inserted)
     plt.xlabel('$t$ / ps')
     plt.ylabel('$N$')
-    plt.axvline(8, ls='-.', color='black', alpha=0.5)
-    plt.axvline(16, ls='-.', color='black', alpha=0.5)
+    plt.axvline(8, ls='-.', color='black', alpha=0.3)
+    plt.axvline(16, ls='-.', color='black', alpha=0.3)
     ax = plt.gca()
     trans = transforms.blended_transform_factory(ax.transData, ax.transAxes)
-    plt.text(8-6, 0.99, 'Step 1', va='top', transform=trans)
-    plt.text(16-6, 0.99, 'Step 2', va='top', transform=trans)
+    plt.text(8-7, 0.99, 'Step 1', va='top', transform=trans)
+    plt.text(16-7, 0.99, 'Step 2', va='top', transform=trans)
     plt.plot(t, nC[dirRelax])
     plt.axhline(nC[dirRelax][-1], 0, 50, ls='--', color='black')
-    plt.text(0, nC[dirRelax][-1]+4, '$N_c = '+str(nC[dirRelax][-1])+'$', ha='left')
+    plt.text(0, nC[dirRelax][-1]+15, '$N_c = '+str(nC[dirRelax][-1])+'$', ha='left')
 
     
     #Plotting NVT simulations at different temperatures
     dirTemp = glob.glob(d+'T_*K/')
     dirTemp.sort(key=natural_keys)
     for dT in dirTemp:
+        print(dT)
         dirSeeds = glob.glob(dT+'seed*/')
         dirSeeds.sort(key=natural_keys)
         nT[dT] = []
@@ -125,6 +126,7 @@ for d in directories:
         # plt.fill_between(t2s['outputVoronoi/step900Seeds/900K_1'], averageSeeds-deviationSeeds, averageSeeds+deviationSeeds, alpha=0.5, color='green')
     plt.ylim([0, 550])
     plt.legend()
+    plt.tight_layout()
     plt.savefig(d+'growthR1350K.png')
 
 
