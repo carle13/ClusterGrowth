@@ -33,7 +33,7 @@ ratio = []
 sRatio = []
 t2 = []
     
-dirSeeds = glob.glob('3_GrowthRandom/WRZ_390N/Output/T_1500K/seed*/')
+dirSeeds = glob.glob('3_GrowthRandom/WRZ_390N/Output/T_1375K/seed*/')
 dirSeeds.sort(key=natural_keys)
 # Get temperature values
 files = glob.glob(dirSeeds[0]+'dump*.PROB.trj')

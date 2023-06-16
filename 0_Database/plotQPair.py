@@ -35,7 +35,7 @@ def readQ(input_file):
 
 testStructure = []
 dataPoints = dict()
-for base, dirs, files in os.walk('QValues/'):
+for base, dirs, files in os.walk('QValuesAverage/'):
     for directories in dirs:
         if 'surf' in directories:
             continue
@@ -55,7 +55,7 @@ for key in dataPoints:
 
 
 plt.figure()
-plt.title('Database plot (Voronoi)')
+plt.title('Database plot (Averaged)')
 ax = plt.gca()
 for key in dataPoints:
     ax.scatter(dataPoints[key][:,2], dataPoints[key][:,6], label=key)
@@ -65,7 +65,7 @@ plt.legend()
 plt.ylabel('$q_8$')
 plt.xlabel('$q_4$')
 plt.tight_layout()
-plt.savefig('qPairVoronoi.png')
+plt.savefig('qPairAverage.png')
 
 # fig, axs = plt.subplots(14, 14, figsize=(100, 100))
 # fig.suptitle('Database plot [q2 ... q8] (Voronoi Cutoff)', fontsize=140)
