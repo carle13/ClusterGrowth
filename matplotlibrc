@@ -19,7 +19,7 @@
     # Instead of individually increasing font sizes, point sizes, and line 
     # thicknesses, I found it easier to just decrease the figure size so
     # that the line weights of various components still agree 
-    figure.figsize          :   4,4
+    figure.figsize          :   4,3
 
     # Turn on minor ticks, top and right axis ticks, and change the direction to "in" 
     xtick.top               :   False

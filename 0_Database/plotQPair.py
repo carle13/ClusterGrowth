@@ -9,6 +9,10 @@ from sklearn.mixture import GaussianMixture as GM
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 
+from shapely.geometry import Point
+from shapely.ops import unary_union
+import matplotlib.patches as ptc
+
 def draw_ellipse(position, covariance, ax=None, **kwargs):
     """Draw an ellipse with a given position and covariance"""
     ax = ax or plt.gca()
@@ -55,15 +59,45 @@ for key in dataPoints:
 
 
 plt.figure()
-plt.title('Database plot (Averaged)')
+#plt.title('Database plot (Averaged)')
 ax = plt.gca()
-for key in dataPoints:
-    ax.scatter(dataPoints[key][:,2], dataPoints[key][:,6], label=key)
+# for key in dataPoints:
+#     ax.scatter(dataPoints[key][:,2], dataPoints[key][:,6], label=key, alpha=0.25)
 for s in range(len(testStructure)):
-    ax.scatter(testStructure[s][:,2], testStructure[s][:,6], c='black', marker='x')
-plt.legend()
+    ax.scatter(testStructure[s][:,2], testStructure[s][:,6], c='black', marker='x', s=16.0, linewidths=1)
+
+
+polygons = dict()
+for key in dataPoints:
+    p = [Point(dataPoints[key][i,2], dataPoints[key][i,6]).buffer(0.002) for i in range(len(dataPoints[key]))]
+    # print(len(p))
+    # print(type(p[0]))
+    # print(p[0].is_valid)
+    # for poly in p:
+    #     if not p[0].is_valid:
+    #         print('non valid')
+    #         exit()
+    polygons[key] = unary_union(p)
+# print(type(polygons['BCT']))
+
+colorCount = 0
+first = True
+for key in polygons:
+    for polygon in polygons[key]:
+        if first:
+            polygon = ptc.Polygon(np.array(polygon.exterior), facecolor="C"+str(colorCount), lw=0, alpha=0.6, label=key)
+            first = False
+        else:
+            polygon = ptc.Polygon(np.array(polygon.exterior), facecolor="C"+str(colorCount), lw=0, alpha=0.6)
+        ax.add_patch(polygon)
+    first = True
+    colorCount += 1
+
+#plt.legend()
 plt.ylabel('$q_8$')
 plt.xlabel('$q_4$')
+plt.ylim([-0.01, 0.45])
+plt.xlim([-0.01, 0.25])
 plt.tight_layout()
 plt.savefig('qPairAverage.png')
 

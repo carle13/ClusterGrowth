@@ -52,6 +52,8 @@ for d in directories:
     dirRelax = dirRelax.replace(crystal+'_'+inserted, crystal+'_1350K')
     dirRelax = dirRelax + 'N_'+inserted[:-1]+'/'
     nC[dirRelax] = []
+    if not os.path.exists(dirRelax+'step'+str(1)+'/dump'+str(0)+'.PROB.trj'):
+        continue
     #Plotting relaxation part
     t = []
     for i in range(1, 3):
@@ -60,7 +62,7 @@ for d in directories:
                 t.append(b*1000)
             elif i == 2:
                 t.append(b*1000 + 8000)
-
+            
             pipeline = import_file(dirRelax+'step'+str(i)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
             pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
             pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
@@ -73,7 +75,7 @@ for d in directories:
     _, inserted = re.findall(r"N_\w+", dirRelax)[0].split('_')
     #Draw plot
     plt.figure()
-    plt.title('Cluster size '+crystal+' (Relaxed at '+temperature+')\nInserted atoms: '+inserted)
+    #plt.title('Cluster size '+crystal+' (Relaxed at '+temperature+')\nInserted atoms: '+inserted)
     plt.xlabel('$t$ / ps')
     plt.ylabel('$N$')
     plt.axvline(8, ls='-.', color='black', alpha=0.3)
@@ -84,7 +86,7 @@ for d in directories:
     plt.text(16-7, 0.99, 'Step 2', va='top', transform=trans)
     plt.plot(t, nC[dirRelax])
     plt.axhline(nC[dirRelax][-1], 0, 50, ls='--', color='black')
-    plt.text(0, nC[dirRelax][-1]+15, '$N_c = '+str(nC[dirRelax][-1])+'$', ha='left')
+    plt.text(0, nC[dirRelax][-1]+25, '$N_c = '+str(nC[dirRelax][-1])+'$', ha='left')
 
     
     #Plotting NVT simulations at different temperatures
@@ -124,7 +126,7 @@ for d in directories:
         # plt.plot(t2['outputVoronoi/step900K'], nT['outputVoronoi/step900K'], label='900K')
         # plt.plot(t2s['outputVoronoi/step900Seeds/900K_1'], averageSeeds, label='Seeds 900')
         # plt.fill_between(t2s['outputVoronoi/step900Seeds/900K_1'], averageSeeds-deviationSeeds, averageSeeds+deviationSeeds, alpha=0.5, color='green')
-    #plt.ylim([0, 550])
+    plt.ylim([0, 250])
     plt.legend()
     plt.tight_layout()
     plt.savefig(d+'growthR1350K.png')

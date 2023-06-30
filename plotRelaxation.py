@@ -15,7 +15,13 @@ from ovito.modifiers import *
 from ovito.data import *
 from ovito.pipeline import *
 
-directories = sorted(glob.glob('2_RelaxDnvt/*/Output/N_*/', recursive=True))
+
+plotDir = '2_RelaxDnvt/'
+# print(len(sys.argv))
+if len(sys.argv) > 1:
+    plotDir = os.path.join(sys.argv[1], '')
+
+directories = sorted(glob.glob(plotDir+'*/Output/N_*/', recursive=True))
 nC = dict()
 t = []
 for d in directories:

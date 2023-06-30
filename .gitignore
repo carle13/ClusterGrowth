@@ -167,3 +167,6 @@ cython_debug/
 
 #Visual studio code
 .vscode
+
+#Ignore old files
+zOld

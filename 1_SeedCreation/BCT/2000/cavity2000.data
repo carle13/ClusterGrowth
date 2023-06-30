@@ -1,0 +1,11 @@
+# LAMMPS data file written by Ovito 3.8.0
+
+0 atoms
+2 atom types
+
+-30.0 30.0 xlo xhi
+-30.0 30.0 ylo yhi
+-30.0 30.0 zlo zhi
+
+Atoms  # charge
+
