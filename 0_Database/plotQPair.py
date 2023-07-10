@@ -39,7 +39,7 @@ def readQ(input_file):
 
 testStructure = []
 dataPoints = dict()
-for base, dirs, files in os.walk('QValuesAverage/'):
+for base, dirs, files in os.walk('QValues/'):
     for directories in dirs:
         if 'surf' in directories:
             continue
@@ -64,12 +64,12 @@ ax = plt.gca()
 # for key in dataPoints:
 #     ax.scatter(dataPoints[key][:,2], dataPoints[key][:,6], label=key, alpha=0.25)
 for s in range(len(testStructure)):
-    ax.scatter(testStructure[s][:,2], testStructure[s][:,6], c='black', marker='x', s=16.0, linewidths=1)
+    ax.scatter(testStructure[s][:,2], testStructure[s][:,4], c='black', marker='x', s=16.0, linewidths=1)
 
 
 polygons = dict()
 for key in dataPoints:
-    p = [Point(dataPoints[key][i,2], dataPoints[key][i,6]).buffer(0.002) for i in range(len(dataPoints[key]))]
+    p = [Point(dataPoints[key][i,2], dataPoints[key][i,4]).buffer(0.002) for i in range(len(dataPoints[key]))]
     # print(len(p))
     # print(type(p[0]))
     # print(p[0].is_valid)
@@ -93,13 +93,13 @@ for key in polygons:
     first = True
     colorCount += 1
 
-#plt.legend()
-plt.ylabel('$q_8$')
+plt.legend(loc='center left', bbox_to_anchor=(-0.2, 1.4), ncol=3)
+plt.ylabel('$q_6$')
 plt.xlabel('$q_4$')
-plt.ylim([-0.01, 0.45])
-plt.xlim([-0.01, 0.25])
+plt.ylim([-0.01, 0.60])
+plt.xlim([-0.01, 0.78])
 plt.tight_layout()
-plt.savefig('qPairAverage.png')
+plt.savefig('q46VoronoiLegend.png')
 
 # fig, axs = plt.subplots(14, 14, figsize=(100, 100))
 # fig.suptitle('Database plot [q2 ... q8] (Voronoi Cutoff)', fontsize=140)

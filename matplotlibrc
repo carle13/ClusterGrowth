@@ -15,6 +15,7 @@
     font.serif              :   cm
     font.weight             :   black
     text.usetex             :   True
+    #font.size               :   15
 
     # Instead of individually increasing font sizes, point sizes, and line 
     # thicknesses, I found it easier to just decrease the figure size so

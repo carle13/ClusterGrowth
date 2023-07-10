@@ -82,11 +82,11 @@ for d in directories:
     plt.axvline(16, ls='-.', color='black', alpha=0.3)
     ax = plt.gca()
     trans = transforms.blended_transform_factory(ax.transData, ax.transAxes)
-    plt.text(8-7, 0.99, 'Step 1', va='top', transform=trans)
-    plt.text(16-7, 0.99, 'Step 2', va='top', transform=trans)
+    #plt.text(8-7, 0.99, 'Step 1', va='top', transform=trans)
+    #plt.text(16-7, 0.99, 'Step 2', va='top', transform=trans)
     plt.plot(t, nC[dirRelax])
     plt.axhline(nC[dirRelax][-1], 0, 50, ls='--', color='black')
-    plt.text(0, nC[dirRelax][-1]+25, '$N_c = '+str(nC[dirRelax][-1])+'$', ha='left')
+    #plt.text(0, nC[dirRelax][-1]+25, '$N_c = '+str(nC[dirRelax][-1])+'$', ha='left')
 
     
     #Plotting NVT simulations at different temperatures
@@ -126,8 +126,9 @@ for d in directories:
         # plt.plot(t2['outputVoronoi/step900K'], nT['outputVoronoi/step900K'], label='900K')
         # plt.plot(t2s['outputVoronoi/step900Seeds/900K_1'], averageSeeds, label='Seeds 900')
         # plt.fill_between(t2s['outputVoronoi/step900Seeds/900K_1'], averageSeeds-deviationSeeds, averageSeeds+deviationSeeds, alpha=0.5, color='green')
-    plt.ylim([0, 250])
-    plt.legend()
+    plt.ylim([0, 400])
+    #plt.legend()
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.tight_layout()
     plt.savefig(d+'growthR1350K.png')
 
