@@ -35,7 +35,7 @@ def readQ(input_file):
 
 testStructure = []
 dataPoints = dict()
-for base, dirs, files in os.walk('QValuesAverage/'):
+for base, dirs, files in os.walk('QValues/'):
     for directories in dirs:
         if 'surf' in directories:
             continue
@@ -55,7 +55,7 @@ for key in dataPoints:
 
 
 fig, axs = plt.subplots(14, 14, figsize=(100, 100))
-fig.suptitle('Database plot [q2 ... q8] (Voronoi Cutoff)', fontsize=140)
+fig.suptitle('Database plot [q2 ... q8] (Voronoi)', fontsize=140)
 for i in range(14):
     for b in range(14):
         if b < i:
@@ -74,4 +74,4 @@ for i in range(14):
         else:
             axs[i, b].set_ylabel('q'+str(b+2-7)+' mono')
         print(i, b)
-fig.savefig('databaseQAverage.png', bbox_inches='tight')
+fig.savefig('databaseQVoronoi.png', bbox_inches='tight')

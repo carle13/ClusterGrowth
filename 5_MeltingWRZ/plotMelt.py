@@ -26,7 +26,7 @@ for d in probs:
     for b in range(21):
         t.append(b*5000)
         #Count particles belonging to the cluster
-        pipeline = import_file('Output/npt100ps0pressure/dump'+str(b*5000)+'.PROB.trj', multiple_frames=True)
+        pipeline = import_file('Output/mass100ps/dump'+str(b*5000)+'.PROB.trj', multiple_frames=True)
         pipeline.modifiers.append(ExpressionSelectionModifier(expression=d+' > 0.5'))
         #pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
         data = pipeline.compute()
@@ -51,5 +51,5 @@ for d in probs:
 #plt.legend()
 plt.tight_layout()
 #plt.xlim([0, 21])
-plt.savefig('wrznpt0Press100ps.png')
+plt.savefig('wrzmeltmass100ps.png')
 plt.close()

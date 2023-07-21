@@ -1,11 +1,11 @@
-# LAMMPS data file written by Ovito 3.8.0
+# LAMMPS data file written by OVITO Basic 3.8.0
 
 2000 atoms
 2 atom types
 
--49.2 49.2 xlo xhi
--51.21 51.21 ylo yhi
--47.7 47.7 zlo zhi
+-30.0 30.0 xlo xhi
+-30.0 30.0 ylo yhi
+-30.0 30.0 zlo zhi
 
 Atoms  # charge
 

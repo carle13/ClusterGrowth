@@ -39,7 +39,7 @@ def readQ(input_file):
 
 testStructure = []
 dataPoints = dict()
-for base, dirs, files in os.walk('QValues/'):
+for base, dirs, files in os.walk('QValuesCutoff/'):
     for directories in dirs:
         if 'surf' in directories:
             continue
@@ -93,13 +93,13 @@ for key in polygons:
     first = True
     colorCount += 1
 
-plt.legend(loc='center left', bbox_to_anchor=(-0.2, 1.4), ncol=3)
+#plt.legend(loc='center left', bbox_to_anchor=(-0.2, 1.4), ncol=3)
 plt.ylabel('$q_6$')
 plt.xlabel('$q_4$')
-plt.ylim([-0.01, 0.60])
-plt.xlim([-0.01, 0.78])
+plt.ylim([-0.01, 0.40])
+plt.xlim([-0.01, 0.40])
 plt.tight_layout()
-plt.savefig('q46VoronoiLegend.png')
+plt.savefig('q46Cutoff.pdf')
 
 # fig, axs = plt.subplots(14, 14, figsize=(100, 100))
 # fig.suptitle('Database plot [q2 ... q8] (Voronoi Cutoff)', fontsize=140)

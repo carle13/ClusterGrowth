@@ -15,6 +15,7 @@
     font.serif              :   cm
     font.weight             :   black
     text.usetex             :   True
+    #font.size               :   30.70866
     font.size               :   15
 
     # Instead of individually increasing font sizes, point sizes, and line 

@@ -64,7 +64,7 @@ for d in directories:
                 t.append(b*1000 + 8000)
             
             pipeline = import_file(dirRelax+'step'+str(i)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
-            pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
+            pipeline.modifiers.append(ExpressionSelectionModifier(expression='pbct > 0.5 || pwrz > 0.5 || phbn > 0.5'))
             pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
             data = pipeline.compute()
             nC[dirRelax].append(data.attributes['ClusterAnalysis.largest_size'])
@@ -113,7 +113,7 @@ for d in directories:
             for f in files:
                 #Open file and count number of atoms
                 pipeline = import_file(f, multiple_frames=True)
-                pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
+                pipeline.modifiers.append(ExpressionSelectionModifier(expression='pbct > 0.5 || pwrz > 0.5 || phbn > 0.5'))
                 pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
                 data = pipeline.compute()
                 nCluster.append(data.attributes['ClusterAnalysis.largest_size'])

@@ -27,8 +27,8 @@ for s in range(1, 5):
         vals = []
         for b in range(35):
             #Count particles belonging to the cluster
-            pipeline = import_file('BCT_380N/Output/T_1375K/seed'+str(seed)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
-            pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
+            pipeline = import_file('WRZ_390N/Output/T_1375K/seed'+str(seed)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
+            pipeline.modifiers.append(ExpressionSelectionModifier(expression='pbct > 0.5 || pwrz > 0.5 || phbn > 0.5'))
             pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
             pipeline.modifiers.append(ExpressionSelectionModifier(expression=d+' > 0.5  && Cluster == 1'))
             data = pipeline.compute()
@@ -64,5 +64,5 @@ plt.fill_between(t, aveTot+stdTot, aveTot-stdTot, alpha=0.25, color=line[0]._col
 #plt.legend()
 plt.tight_layout()
 #plt.ylim([0, 300])
-plt.savefig('nucleationBCT380.png')
+plt.savefig('nucleationWRZ390.png')
 plt.close()

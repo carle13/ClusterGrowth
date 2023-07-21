@@ -37,7 +37,7 @@ for d in directories:
                 t.append(b*1000 + 8000)
             #Count particles belonging to the cluster
             pipeline = import_file(d+'step'+str(i)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
-            pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
+            pipeline.modifiers.append(ExpressionSelectionModifier(expression='pbct > 0.5 || pwrz > 0.5 || phbn > 0.5'))
             pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
             data = pipeline.compute()
             nC[d].append(data.attributes['ClusterAnalysis.largest_size'])
