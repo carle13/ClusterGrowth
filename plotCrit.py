@@ -12,8 +12,10 @@ errBCT = np.array([7.8125, 15.625, 7.8125])
 critWRZ = np.array([1328.125, 1437.5, 1445.3125])
 errWRZ = np.array([15.625, 15.625, 7.8125])
 
-plt.figure()
-plt.title('Critical temperatures')
+cm = 1/2.54  #centimeters in inches
+plt.figure(figsize=(8.6*cm, 8.6*cm))
+matplotlib.rcParams.update({'font.size': 7.370078})
+#plt.title('Critical temperatures')
 plt.xlabel('$N_c$')
 plt.ylabel(r'$T_{crit}$ / K')
 
@@ -25,4 +27,4 @@ line = plt.errorbar(sizeWRZ, critWRZ, yerr=errWRZ, label='WRZ', capsize=5.0)
 
 plt.legend()
 plt.tight_layout()
-plt.savefig('critTemps.png')
+plt.savefig('critTemps.pdf', bbox_inches='tight')

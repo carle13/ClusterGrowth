@@ -12,9 +12,13 @@
 
     # Set font type to the same one used in latex article class document
     font.family             :   serif
-    font.serif              :   cm
-    font.weight             :   black
-    text.usetex             :   True
+    font.serif              :   CMU Serif
+    mathtext.fontset        :   custom
+    mathtext.rm             :   CMU Serif
+    mathtext.it             :   CMU Serif:italic
+    mathtext.bf             :   CMU Serif:bold
+    font.weight             :   medium
+    text.usetex             :   False
     #font.size               :   15
 
     # Instead of individually increasing font sizes, point sizes, and line 
