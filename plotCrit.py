@@ -3,14 +3,14 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-sizeBCT = np.array([72, 177, 364])
-sizeWRZ = np.array([71, 186, 366])
+sizeBCT = np.array([66, 92, 175, 348])
+sizeWRZ = np.array([64, 93, 164, 338])
 
-critBCT = np.array([1367.1875, 1421.875, 1445.3125])
-errBCT = np.array([7.8125, 15.625, 7.8125])
+critBCT = np.array([1359.375, 1398.4375, 1421.875, 1421.875])
+errBCT = np.array([7.8125, 7.8125, 7.8125, 30])
 
-critWRZ = np.array([1328.125, 1437.5, 1445.3125])
-errWRZ = np.array([15.625, 15.625, 7.8125])
+critWRZ = np.array([1421.875, 1429.6875, 1445.3125, 1453.125])
+errWRZ = np.array([7.8125, 7.8125, 7.8125, 7.8125])
 
 cm = 1/2.54  #centimeters in inches
 plt.figure(figsize=(8.6*cm, 8.6*cm))
