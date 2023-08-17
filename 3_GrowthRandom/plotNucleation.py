@@ -21,13 +21,13 @@ t = []
 for d in probs:
     nC[d] = []
 
-for s in range(1, 5):
+for s in range(1, 6):
     seed = 11111 * s
     for d in probs:
         vals = []
         for b in range(35):
             #Count particles belonging to the cluster
-            pipeline = import_file('WRZ_390N/Output/T_1375K/seed'+str(seed)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
+            pipeline = import_file('WRZ_340N/Output/T_1375K/seed'+str(seed)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
             pipeline.modifiers.append(ExpressionSelectionModifier(expression='pbct > 0.5 || pwrz > 0.5 || phbn > 0.5'))
             pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
             pipeline.modifiers.append(ExpressionSelectionModifier(expression=d+' > 0.5  && Cluster == 1'))
@@ -61,8 +61,8 @@ line = plt.plot(t, aveTot, label='Total Cluster')
 plt.fill_between(t, aveTot+stdTot, aveTot-stdTot, alpha=0.25, color=line[0]._color)
 #plt.axhline(nC[d][-1], 0, 16, ls='--', color='black')
 #plt.text(16-0.15, nC[d][-1]+1, '$N_c = '+str(nC[d][-1])+'$', ha='right')
-#plt.legend()
+plt.legend()
 plt.tight_layout()
 #plt.ylim([0, 300])
-plt.savefig('nucleationWRZ390.png')
+plt.savefig('wrz340N1375K.png')
 plt.close()

@@ -21,26 +21,27 @@ t = []
 for d in probs:
     nC[d] = []
 
-seed = 11111
-for d in probs:
-    vals = []
-    for b in range(185):
-        #Count particles belonging to the cluster
-        pipeline = import_file('WRZ_210N/Output/T_1375K/seed'+str(seed)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
-        pipeline.modifiers.append(ExpressionSelectionModifier(expression='pliq < 0.5'))
-        pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
-        pipeline.modifiers.append(ExpressionSelectionModifier(expression=d+' > 0.5  && Cluster == 1'))
-        data = pipeline.compute()
-        vals.append(data.attributes['ExpressionSelection.count.2'])
-    nC[d].append(vals)
+for s in range(1, 6):
+    seed = 11111 * s
+    for d in probs:
+        vals = []
+        for b in range(85):
+            #Count particles belonging to the cluster
+            pipeline = import_file('BCT_394N/Output/T_1000K/seed'+str(seed)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
+            pipeline.modifiers.append(ExpressionSelectionModifier(expression='pbct > 0.5 || pwrz > 0.5 || phbn > 0.5'))
+            pipeline.modifiers.append(ClusterAnalysisModifier(cutoff=4, sort_by_size=True, only_selected=True))
+            pipeline.modifiers.append(ExpressionSelectionModifier(expression=d+' > 0.5  && Cluster == 1'))
+            data = pipeline.compute()
+            vals.append(data.attributes['ExpressionSelection.count.2'])
+        nC[d].append(vals)
 
-for b in range(185):
+for b in range(85):
     t.append(b*1000)
-t = np.array(t) / 1000
+t = (np.array(t) / 1000) + 16
 
 #Draw plot
 plt.figure()
-plt.title('WRZ Nanoparticle Nucleation (1375K)')
+#plt.title('BCT Nanoparticle Crystallization (1375K)')
 plt.xlabel('$t$ / ps')
 plt.ylabel('$N$')
 
@@ -56,12 +57,12 @@ for d in probs:
 
 aveTot = np.mean(nTotal, axis=0)
 stdTot = np.std(nTotal, axis=0)
-line = plt.plot(t, aveTot, label='Total Seed')
+line = plt.plot(t, aveTot, label='Total Cluster')
 plt.fill_between(t, aveTot+stdTot, aveTot-stdTot, alpha=0.25, color=line[0]._color)
 #plt.axhline(nC[d][-1], 0, 16, ls='--', color='black')
 #plt.text(16-0.15, nC[d][-1]+1, '$N_c = '+str(nC[d][-1])+'$', ha='right')
 plt.legend()
 plt.tight_layout()
-#plt.xlim([0, 21])
-plt.savefig('nucleationWRZ.png')
+#plt.ylim([0, 300])
+plt.savefig('bct394N1000K.png')
 plt.close()

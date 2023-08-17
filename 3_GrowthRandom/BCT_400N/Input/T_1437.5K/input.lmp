@@ -1,0 +1,39 @@
+#variable    T equal 1453.125
+variable    tRelax equal 1350
+#variable    seed equal 87287
+
+###| Initial box
+units           metal
+dimension       3
+boundary        p p p 
+atom_style      charge
+
+read_data	relaxed.data
+
+include         POT.lammps
+
+mass            2 65.38
+mass            1 15.999
+
+set 			type 2 charge $(2*0.3227506)
+set 			type 1 charge $(-2*0.3227506)
+
+kspace_style  	ewald  0.000001
+
+
+#velocity        all create ${T}  ${seed} rot yes
+fix 		1 all momentum 1 angular
+
+thermo		100
+dump            001 all custom 1000 seed${seed}/dump*.trj id type x y z
+dump_modify     001 sort id
+
+fix		2 all nve
+fix             mynvt all langevin ${tRelax} ${T}  $(100.0*dt) ${seed}
+run             2000
+
+unfix           2
+unfix           mynvt
+
+fix             sameTemp all nvt temp ${T} ${T}  $(100.0*dt)
+run             32000

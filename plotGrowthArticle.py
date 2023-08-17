@@ -45,11 +45,38 @@ nT = dict()
 sT = dict()
 t2 = dict()
 
+cm = 1/2.54  #centimeters in inches
+matplotlib.rcParams.update({'font.size': 7.370078})
+fig = plt.figure(figsize=(17*cm, 6.5*cm))
+subfigs = fig.subfigures(2, 1, hspace=1)
+
+axsBCT = subfigs[0].subplots(1, 5)
+subfigs[0].suptitle('BCT')
+
+axsWRZ = subfigs[1].subplots(1, 5)
+subfigs[1].suptitle('WRZ')
+
+cB = 0
+cW = 0
+lims = [100, 200, 300, 400, 500]
+tempsBCT = []
+tempsWRZ = []
 for d in directories:
+    if 'BCT' in d:
+        ax = axsBCT[cB]
+        indLim = cB
+        cB += 1
+    elif 'WRZ' in d:
+        ax = axsWRZ[cW]
+        indLim = cW
+        cW += 1
     #Get directory of corresponding relaxation
     dirRelax = d.replace(plotDir, '2_RelaxDnvt/')
     crystal, inserted = re.findall(r"\w+N", dirRelax)[0].split('_')
-    dirRelax = dirRelax.replace(crystal+'_'+inserted, crystal+'_1350K')
+    temp = '_1350K'
+    if int(inserted.replace('N', '')) < 100:
+        temp = '_1250K'
+    dirRelax = dirRelax.replace(crystal+'_'+inserted, crystal+temp)
     dirRelax = dirRelax + 'N_'+inserted[:-1]+'/'
     nC[dirRelax] = []
     if not os.path.exists(dirRelax+'step'+str(1)+'/dump'+str(0)+'.PROB.trj'):
@@ -74,21 +101,19 @@ for d in directories:
     crystal, temperature = re.findall(r"\w+K", dirRelax)[0].split('_')
     _, inserted = re.findall(r"N_\w+", dirRelax)[0].split('_')
     #Draw plot
-    plt.figure()
     #plt.title('Cluster size '+crystal+' (Relaxed at '+temperature+')\nInserted atoms: '+inserted)
-    plt.xlabel('$t$ / ps')
-    plt.ylabel('$N$')
-    plt.axvline(8, ls='-.', color='black', alpha=0.3)
-    plt.axvline(16, ls='-.', color='black', alpha=0.3)
-    ax = plt.gca()
+    ax.set_xlabel('$t$ / ps')
+    if indLim == 0:
+        ax.set_ylabel('$N$')
+    ax.axvline(8, ls='-.', color='black', alpha=0.3)
+    ax.axvline(16, ls='-.', color='black', alpha=0.3)
     trans = transforms.blended_transform_factory(ax.transData, ax.transAxes)
     #plt.text(8-7, 0.99, 'Step 1', va='top', transform=trans)
     #plt.text(16-7, 0.99, 'Step 2', va='top', transform=trans)
-    plt.plot(t, nC[dirRelax])
-    plt.axhline(nC[dirRelax][-1], 0, 50, ls='--', color='black')
+    ax.plot(t, nC[dirRelax])
+    ax.axhline(nC[dirRelax][-1], 0, 50, ls='--', color='black')
     #plt.text(0, nC[dirRelax][-1]+25, '$N_c = '+str(nC[dirRelax][-1])+'$', ha='left')
 
-    
     #Plotting NVT simulations at different temperatures
     dirTemp = glob.glob(d+'T_*K/')
     dirTemp.sort(key=natural_keys)
@@ -120,50 +145,55 @@ for d in directories:
             nSeed.append(nCluster)
         nT[dT] = np.mean(nSeed, axis=0)
         sT[dT] = np.std(nSeed, axis=0)
-        line = plt.plot(t2[dT], nT[dT], label=os.path.basename(dT[:-1]).replace('T_', ''))
-        plt.fill_between(t2[dT], nT[dT]+sT[dT], nT[dT]-sT[dT], alpha=0.25, color=line[0]._color)
-        # print('plotting: '+str(dT)+'         last value: '+str(nT[dT]))
-        # plt.plot(t2['outputVoronoi/step900K'], nT['outputVoronoi/step900K'], label='900K')
-        # plt.plot(t2s['outputVoronoi/step900Seeds/900K_1'], averageSeeds, label='Seeds 900')
-        # plt.fill_between(t2s['outputVoronoi/step900Seeds/900K_1'], averageSeeds-deviationSeeds, averageSeeds+deviationSeeds, alpha=0.5, color='green')
-    plt.ylim([0, 400])
-    #plt.legend()
-    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.tight_layout()
-    plt.savefig(d+'growthR1350K.png')
+        temp = os.path.basename(dT[:-1]).replace('T_', '')
+        indexColor = 0
+        if 'BCT' in d:
+            if temp not in tempsBCT:
+                tempsBCT.append(temp)
+            for t in range(len(tempsBCT)):
+                if tempsBCT[t] == temp:
+                    indexColor = t
+        elif 'WRZ' in d:
+            if temp not in tempsWRZ:
+                tempsWRZ.append(temp)
+            for t in range(len(tempsWRZ)):
+                if tempsWRZ[t] == temp:
+                    indexColor = t
+        line = ax.plot(t2[dT], nT[dT], label=temp, c='C'+str(indexColor+1))
+        ax.fill_between(t2[dT], nT[dT]+sT[dT], nT[dT]-sT[dT], alpha=0.25, color=line[0]._color)
+    ax.set_ylim([0, lims[indLim]])
 
-
-# #Plotting NVT simulations for different random seeds
-# nTs = dict()
-# t2s = dict()
-# tempDirs = glob.glob('outputVoronoi/step900Seeds/*')
-# tempDirs.sort(key=natural_keys)
-# for tt in tempDirs:
-#     nTs[tt] = []
-#     t2s[tt] = []
-# for dir in tempDirs:
-#     files = glob.glob(dir+'/dump*.PROB.trj')
-#     files.sort(key=natural_keys)
-#     for f in files:
-#         #Getting the number of column for the probability
-#         header = ''
-#         with open(d+'/step'+str(i)+'/dump'+str(b*1000)+'.PROB.trj') as file:
-#             for item in file:
-#                 if 'ITEM: ATOMS' in item:
-#                     header = item.split(' ')
-#                     break
-#         index = 0
-#         for s in range(len(header)):
-#             if 'pLIQ' in header[s]:
-#                 index = s - 2
-#                 break
-
-#         t2s[dir].append(int(os.path.basename(f).replace('dump', '').replace('.PROB.trj', ''))+16000)
-#         #Open file and count number of atoms
-#         a = np.genfromtxt(f, skip_header=9)
-#         nTs[dir].append(sum(x < 0.5 for x in a[:, index]))
-# seeds = []
-# for l in nTs:
-#     seeds.append(nTs[l])
-# averageSeeds = np.average(seeds, axis=0)
-# deviationSeeds = np.std(seeds, axis=0)
+handlesBCT = []
+labelsBCT = []
+handlesWRZ = []
+labelsWRZ = []
+for ax in axsBCT:
+    handles, labels = ax.get_legend_handles_labels()
+    indRemove = []
+    for l in range(len(labels)):
+        if labels[l] in labelsBCT:
+            indRemove.append(l)
+    handles = [handles[i] for i in range(len(handles)) if i not in indRemove]
+    labels = [labels[i] for i in range(len(labels)) if i not in indRemove]
+    handlesBCT += handles
+    labelsBCT += labels
+subfigs[0].legend(handlesBCT, labelsBCT, loc='center left', bbox_to_anchor=(0.9, 0.5))
+for ax in axsWRZ:
+    handles, labels = ax.get_legend_handles_labels()
+    indRemove = []
+    for l in range(len(labels)):
+        if labels[l] in labelsWRZ:
+            indRemove.append(l)
+    handles = [handles[i] for i in range(len(handles)) if i not in indRemove]
+    labels = [labels[i] for i in range(len(labels)) if i not in indRemove]
+    handlesWRZ += handles
+    labelsWRZ += labels
+subfigs[1].legend(handlesWRZ, labelsWRZ, loc='center left', bbox_to_anchor=(0.9, 0.5))
+#fig.tight_layout()
+#plt.gca().set_axis_off()
+plt.subplots_adjust(hspace = 2, wspace = 0.35)
+#plt.margins(0,0)
+#plt.gca().xaxis.set_major_locator(plt.NullLocator())
+#plt.gca().yaxis.set_major_locator(plt.NullLocator())
+fig.savefig('growthPlots.pdf', bbox_inches = 'tight',
+    pad_inches = 0.05)

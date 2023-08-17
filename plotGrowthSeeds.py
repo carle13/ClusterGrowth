@@ -49,7 +49,10 @@ for d in directories:
     #Get directory of corresponding relaxation
     dirRelax = d.replace(plotDir, '2_RelaxDnvt/')
     crystal, inserted = re.findall(r"\w+N", dirRelax)[0].split('_')
-    dirRelax = dirRelax.replace(crystal+'_'+inserted, crystal+'_1350K')
+    temp = '_1350K'
+    if int(inserted.replace('N', '')) < 100:
+        temp = '_1250K'
+    dirRelax = dirRelax.replace(crystal+'_'+inserted, crystal+temp)
     dirRelax = dirRelax + 'N_'+inserted[:-1]+'/'
     nC[dirRelax] = []
     if not os.path.exists(dirRelax+'step'+str(1)+'/dump'+str(0)+'.PROB.trj'):
