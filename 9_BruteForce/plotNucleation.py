@@ -31,15 +31,15 @@ fig.set_figwidth(17*cm)
 
 axs = fig.subplots(1, 5)
 
-ranges = [[0,300], [0,300], [0,300], [0,300], [0,300]]
-posV = [[100,200,250], [100,200,250], [100,200,250], [100,200,250], [100,200,250]]
+ranges = [[100,700], [200,950], [100,700], [150,900], [150,950]]
+posV = [[137,237,600], [280,500,845], [131,250,587], [201,400,800], [161,302,850]]
 
 for s in range(1, 6):
     ax = axs[s - 1]
     seed = 11111 * s
     for d in probs:
         vals = []
-        for b in range(ranges[s-1][0], ranges[s-1][1], 5):
+        for b in range(ranges[s-1][0], ranges[s-1][1], 20):
             if d == 'pbct':
                 t[s-1].append(b*1000)
             #Count particles belonging to the cluster
@@ -63,14 +63,13 @@ for s in range(1, 6):
         ax.plot(t[s-1], nC[d][s-1], label=d.replace('p', '').upper())
 
     ax.plot(t[s-1], nTotal, label='Total Cluster')
-    ax.axvline(posV[s-1][0], c='r', ls='--')
-    ax.axvline(posV[s-1][1], c='g', ls='--')
-    ax.axvline(posV[s-1][2], c='b', ls='--')
+    ax.axvline(posV[s-1][0], c='C5', ls='--')
+    ax.axvline(posV[s-1][1], c='C6', ls='--')
+    ax.axvline(posV[s-1][2], c='C7', ls='--')
 #plt.axhline(nC[d][-1], 0, 16, ls='--', color='black')
 #plt.text(16-0.15, nC[d][-1]+1, '$N_c = '+str(nC[d][-1])+'$', ha='right')
 plt.legend(ncol=4, loc='upper center', bbox_to_anchor=(-2.5, 1.3))
 plt.subplots_adjust(left=0.07, right=0.99, top=0.8, bottom=0.2, wspace = 0.35)
 #plt.tight_layout()
 #plt.ylim([0, 300])
-fig.savefig('compositionBrute.pdf',
-    pad_inches = 0.05)
+fig.savefig('compositionBrute.pdf', pad_inches = 0.05)

@@ -195,5 +195,5 @@ plt.subplots_adjust(hspace = 2, wspace = 0.35)
 #plt.margins(0,0)
 #plt.gca().xaxis.set_major_locator(plt.NullLocator())
 #plt.gca().yaxis.set_major_locator(plt.NullLocator())
-fig.savefig('growthPlots.pdf', bbox_inches = 'tight',
+fig.savefig('growthPlots.pdf',
     pad_inches = 0.05)

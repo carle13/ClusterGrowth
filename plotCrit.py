@@ -27,4 +27,4 @@ line = plt.errorbar(sizeWRZ, critWRZ, yerr=errWRZ, label='WRZ', capsize=5.0)
 
 plt.legend()
 plt.tight_layout()
-plt.savefig('critTemps.pdf', bbox_inches='tight')
+plt.savefig('critTemps.pdf', pad_inches = 0.01)
