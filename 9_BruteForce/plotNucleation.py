@@ -31,8 +31,8 @@ fig.set_figwidth(17*cm)
 
 axs = fig.subplots(1, 5)
 
-ranges = [[100,700], [200,950], [100,700], [150,900], [150,950]]
-posV = [[137,237,600], [280,500,845], [131,250,587], [201,400,800], [161,302,850]]
+ranges = [[0,700], [0,950], [0,700], [0,900], [0,950]]
+posV = [[137,237,324,600], [280,348,500,845], [131,177,250,587], [201,316,400,800], [161,244,302,850]]
 
 for s in range(1, 6):
     ax = axs[s - 1]
@@ -59,13 +59,17 @@ for s in range(1, 6):
 
     nTotal = np.array(nC['pbct'][s-1]) + np.array(nC['pwrz'][s-1]) + np.array(nC['phbn'][s-1])
 
+    colorsRGB = [(228/255,26/255,28/255), (77/255,175/255,74/255), (55/255,126/255,184/255)]
+    indexColor = 0
     for d in probs:
-        ax.plot(t[s-1], nC[d][s-1], label=d.replace('p', '').upper())
+        ax.plot(t[s-1], nC[d][s-1], label=d.replace('p', '').upper(), c=colorsRGB[indexColor])
+        indexColor += 1
 
-    ax.plot(t[s-1], nTotal, label='Total Cluster')
-    ax.axvline(posV[s-1][0], c='C5', ls='--')
-    ax.axvline(posV[s-1][1], c='C6', ls='--')
-    ax.axvline(posV[s-1][2], c='C7', ls='--')
+    ax.plot(t[s-1], nTotal, label='Total Cluster', c='C7')
+    ax.axvline(posV[s-1][0], c='black', ls='--')
+    ax.axvline(posV[s-1][1], c='black', ls='--')
+    ax.axvline(posV[s-1][2], c='black', ls='--')
+    ax.axvline(posV[s-1][3], c='black', ls='--')
 #plt.axhline(nC[d][-1], 0, 16, ls='--', color='black')
 #plt.text(16-0.15, nC[d][-1]+1, '$N_c = '+str(nC[d][-1])+'$', ha='right')
 plt.legend(ncol=4, loc='upper center', bbox_to_anchor=(-2.5, 1.3))

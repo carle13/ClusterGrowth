@@ -41,14 +41,12 @@ nC = dict()
 t = []
 
 #Variables growth part
-nT = dict()
-sT = dict()
-t2 = dict()
+t2 = []
 
 cm = 1/2.54  #centimeters in inches
 matplotlib.rcParams.update({'font.size': 7.370078})
 fig = plt.figure(figsize=(17*cm, 12*cm))
-subfigs = fig.subfigures(3, 2, hspace=2, wspace=2).flatten()
+subfigs = fig.subfigures(3, 2, hspace=0, wspace=0).flatten()
 
 axs = []
 for s in subfigs:
@@ -60,22 +58,35 @@ for s in subfigs:
 #axs2 = subfigs[1].subplots(1, 2)
 #subfigs[1].suptitle('WRZ')
 
-cB = 0
-cW = 0
+cB = -1
+cW = -1
 lims = [100, 200, 300, 400, 500]
-tempsfig = [None]*5
+lims = list(reversed(lims))
+tfig = [None]*5
+sfig = [None]*5
+tempssub = [None]*5
 for i in range(5):
-    tempsfig[i] = []
+    tfig[i] = [None]*2
+    sfig[i] = [None]*2
+    tempssub[i] = [None]*2
+    for b in range(2):
+        tfig[i][b] = dict()
+        sfig[i][b] = dict()
+        tempssub[i][b] = []
 indexColor = 0
-for d in directories:
+for d in reversed(directories):
+    structure = 10
     if 'BCT' in d:
-        ax = axs[cB][0]
-        indLim = cB
         cB += 1
+        structure = 0
+        ax = axs[cB][structure]
+        indLim = cB
     elif 'WRZ' in d:
-        ax = axs[cW][1]
-        indLim = cW
         cW += 1
+        structure = 1
+        ax = axs[cW][structure]
+        indLim = cW
+        
     #Get directory of corresponding relaxation
     dirRelax = d.replace(plotDir, '2_RelaxDnvt/')
     crystal, inserted = re.findall(r"\w+N", dirRelax)[0].split('_')
@@ -109,36 +120,37 @@ for d in directories:
     #Draw plot
     #plt.title('Cluster size '+crystal+' (Relaxed at '+temperature+')\nInserted atoms: '+inserted)
     ax.set_xlabel('$t$ / ps')
-    if 'BCT' in d:
-        ax.set_ylabel('$N$')
-        ax.set_title('BCT')
-    else:
-        ax.set_yticklabels([])
-        ax.set_title('WRZ')
     ax.axvline(8, ls='-.', color='black', alpha=0.3)
     ax.axvline(16, ls='-.', color='black', alpha=0.3)
     trans = transforms.blended_transform_factory(ax.transData, ax.transAxes)
     #plt.text(8-7, 0.99, 'Step 1', va='top', transform=trans)
     #plt.text(16-7, 0.99, 'Step 2', va='top', transform=trans)
-    ax.plot(t, nC[dirRelax])
+    ax.plot(t, nC[dirRelax], c='black')
     ax.axhline(nC[dirRelax][-1], 0, 50, ls='--', color='black')
     #plt.text(0, nC[dirRelax][-1]+25, '$N_c = '+str(nC[dirRelax][-1])+'$', ha='left')
+    if 'BCT' in d:
+        ax.set_ylabel('$N$')
+        ax.set_title('BCT, '+'$N_c = '+str(nC[dirRelax][-1])+'$')
+    else:
+        ax.set_yticklabels([])
+        ax.set_title('WRZ, '+'$N_c = '+str(nC[dirRelax][-1])+'$')
 
     #Plotting NVT simulations at different temperatures
     dirTemp = glob.glob(d+'T_*K/')
     dirTemp.sort(key=natural_keys)
-    for dT in dirTemp:
+    for dT2 in dirTemp:
+        dT = os.path.basename(dT2[:-1]).replace('T_', '')
         #print(dT)
-        dirSeeds = glob.glob(dT+'seed*/')
+        dirSeeds = glob.glob(dT2+'seed*/')
         dirSeeds.sort(key=natural_keys)
-        nT[dT] = []
-        sT[dT] = []
-        t2[dT] = []
+        tfig[indLim][structure][dT] = []
+        sfig[indLim][structure][dT] = []
+        t2 = []
         # Get temperature values
         files = glob.glob(dirSeeds[0]+'dump*.PROB.trj')
         files.sort(key=natural_keys)
         for f in files:
-            t2[dT].append(int(os.path.basename(f).replace('dump', '').replace('.PROB.trj', ''))/1000+16)
+            t2.append(int(os.path.basename(f).replace('dump', '').replace('.PROB.trj', ''))/1000+16)
         # Read cluster sizes for different seeds and compute average
         nSeed = []
         for dS in dirSeeds:
@@ -153,18 +165,53 @@ for d in directories:
                 data = pipeline.compute()
                 nCluster.append(data.attributes['ClusterAnalysis.largest_size'])
             nSeed.append(nCluster)
-        nT[dT] = np.mean(nSeed, axis=0)
-        sT[dT] = np.std(nSeed, axis=0)
-        temp = os.path.basename(dT[:-1]).replace('T_', '')
-        indexColor = 0
-        if temp not in tempsfig[indLim]:
-            tempsfig[indLim].append(temp)
-        for t in range(len(tempsfig[indLim])):
-            if tempsfig[indLim][t] == temp:
-                indexColor = t
-        line = ax.plot(t2[dT], nT[dT], label=temp, c='C'+str(indexColor+1))
-        ax.fill_between(t2[dT], nT[dT]+sT[dT], nT[dT]-sT[dT], alpha=0.25, color=line[0]._color)
+        tfig[indLim][structure][dT] = np.mean(nSeed, axis=0)
+        sfig[indLim][structure][dT] = np.std(nSeed, axis=0)
+        tempssub[indLim][structure].append(os.path.basename(dT2[:-1]).replace('T_', ''))
     ax.set_ylim([0, lims[indLim]])
+
+
+cB = 0
+cW = 0
+for i in range(5):
+    tSubfigure = [element for b in range(len(tempssub[i])) for element in tempssub[i][b]]
+    tSubfigure = sorted(list(set(tSubfigure)))
+    colorsplasma = plt.cm.plasma(np.linspace(0, 1, len(tSubfigure)))
+    for s in range(2):
+        ax = axs[i][s]
+        for dT in range(len(tempssub[i][s])):
+            indexColor = 0
+            for t in range(len(tSubfigure)):
+                if tSubfigure[t] == tempssub[i][s][dT]:
+                    indexColor = t
+            key = tSubfigure[indexColor]
+            line = ax.plot(t2, tfig[i][s][key], label=tempssub[i][s][dT], c=colorsplasma[indexColor])
+            ax.fill_between(t2, tfig[i][s][key]+sfig[i][s][key], tfig[i][s][key]-sfig[i][s][key], alpha=0.25, color=line[0]._color)
+
+
+# for d in reversed(directories):
+#     if 'BCT' in d:
+#         ax = axs[cB][0]
+#         indLim = cB
+#         cB += 1
+#     elif 'WRZ' in d:
+#         ax = axs[cW][1]
+#         indLim = cW
+#         cW += 1
+#     dirTemp = glob.glob(d+'T_*K/')
+#     dirTemp.sort(key=natural_keys)
+#     for dT in sorted(dirTemp):
+#         temp = os.path.basename(dT[:-1]).replace('T_', '')
+#         indexColor = 0
+#         if temp not in tempsfig[indLim]:
+#             tempsfig[indLim].append(temp)
+#         for t in range(len(tempsfig[indLim])):
+#             if tempsfig[indLim][t] == temp:
+#                 indexColor = t
+#         colorsplasma = plt.cm.plasma(np.linspace(0, 1, 7))
+#         line = ax.plot(t2[dT], nT[dT], label=temp, c='C'+str(indexColor))
+#         ax.fill_between(t2[dT], nT[dT]+sT[dT], nT[dT]-sT[dT], alpha=0.25, color=line[0]._color)
+#     ax.set_ylim([0, lims[indLim]])
 
 
 handlesWRZ = []
