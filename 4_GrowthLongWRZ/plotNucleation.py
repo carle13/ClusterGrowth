@@ -47,7 +47,7 @@ def natural_keys(text):
     return [ atoi(c) for c in re.split(r'(\d+)', text) ]
 
 
-directories = sorted(glob.glob('BCT_*N/Output/', recursive=True))
+directories = sorted(glob.glob('WRZ_*N/Output/', recursive=True))
 directories.sort(key=natural_keys)
 
 plot = 0
