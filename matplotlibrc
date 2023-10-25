@@ -55,4 +55,4 @@
     legend.frameon          :   True
     legend.fancybox         :   False
     legend.edgecolor        :   inherit
-    legend.handletextpad    :   0.0
+    legend.handletextpad    :   0.25

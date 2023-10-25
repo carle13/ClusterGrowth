@@ -44,7 +44,7 @@ t = []
 t2 = []
 
 cm = 1/2.54  #centimeters in inches
-matplotlib.rcParams.update({'font.size': 7.370078})
+matplotlib.rcParams.update({'font.size': 9.98655939})
 fig = plt.figure(figsize=(17*cm, 12*cm))
 subfigs = fig.subfigures(3, 2, hspace=0, wspace=0).flatten()
 
@@ -60,7 +60,7 @@ for s in subfigs:
 
 cB = -1
 cW = -1
-lims = [100, 200, 300, 400, 500]
+lims = [90, 175, 275, 350, 500]
 lims = list(reversed(lims))
 tfig = [None]*5
 sfig = [None]*5
@@ -119,21 +119,21 @@ for d in reversed(directories):
     _, inserted = re.findall(r"N_\w+", dirRelax)[0].split('_')
     #Draw plot
     #plt.title('Cluster size '+crystal+' (Relaxed at '+temperature+')\nInserted atoms: '+inserted)
-    ax.set_xlabel('$t$ / ps')
+    ax.set_xlabel('t [ps]', labelpad=0)
     ax.axvline(8, ls='-.', color='black', alpha=0.3)
     ax.axvline(16, ls='-.', color='black', alpha=0.3)
     trans = transforms.blended_transform_factory(ax.transData, ax.transAxes)
     #plt.text(8-7, 0.99, 'Step 1', va='top', transform=trans)
     #plt.text(16-7, 0.99, 'Step 2', va='top', transform=trans)
-    ax.plot(t, nC[dirRelax], c='black')
+    ax.plot(t, nC[dirRelax], c='black', lw=1)
     ax.axhline(nC[dirRelax][-1], 0, 50, ls='--', color='black')
     #plt.text(0, nC[dirRelax][-1]+25, '$N_c = '+str(nC[dirRelax][-1])+'$', ha='left')
     if 'BCT' in d:
-        ax.set_ylabel('$N$')
-        ax.set_title('BCT, '+'$N_c = '+str(nC[dirRelax][-1])+'$')
+        ax.set_ylabel('$N$', labelpad=1)
+        ax.set_title('BCT '+'$N_c = '+str(nC[dirRelax][-1])+'$', fontsize=9.98655939)
     else:
         ax.set_yticklabels([])
-        ax.set_title('WRZ, '+'$N_c = '+str(nC[dirRelax][-1])+'$')
+        ax.set_title('WRZ '+'$N_c = '+str(nC[dirRelax][-1])+'$', fontsize=9.98655939)
 
     #Plotting NVT simulations at different temperatures
     dirTemp = glob.glob(d+'T_*K/')
@@ -185,7 +185,7 @@ for i in range(5):
                 if tSubfigure[t] == tempssub[i][s][dT]:
                     indexColor = t
             key = tSubfigure[indexColor]
-            line = ax.plot(t2, tfig[i][s][key], label=tempssub[i][s][dT], c=colorsplasma[indexColor])
+            line = ax.plot(t2, tfig[i][s][key], label=tempssub[i][s][dT], c=colorsplasma[indexColor], lw=1)
             ax.fill_between(t2, tfig[i][s][key]+sfig[i][s][key], tfig[i][s][key]-sfig[i][s][key], alpha=0.25, color=line[0]._color)
 
 
@@ -232,7 +232,7 @@ for sub in subfigs:
         labelsBCT += labels
     if len(labelsBCT) != 0:
         labelsBCT, handlesBCT = zip(*sorted(zip(labelsBCT, handlesBCT), key=lambda t: t[0]))
-    sub.legend(handlesBCT, labelsBCT, loc='center left', bbox_to_anchor=(0.75, 0.5))
+    sub.legend(handlesBCT, labelsBCT, loc='center left', bbox_to_anchor=(0.7, 0.5), handlelength=1)
 # for ax in axsWRZ:
 #     handles, labels = ax.get_legend_handles_labels()
 #     indRemove = []
@@ -246,7 +246,7 @@ for sub in subfigs:
 # subfigs[1].legend(handlesWRZ, labelsWRZ, loc='center left', bbox_to_anchor=(0.9, 0.5))
 #fig.tight_layout()
 #plt.gca().set_axis_off()
-plt.subplots_adjust(left=0.15, right=0.75, bottom=0.2, hspace = 2, wspace = 0.1)
+plt.subplots_adjust(left=0.13, right=0.7, top=0.87, bottom=0.205, hspace = 2, wspace = 0.1)
 #plt.margins(0,0)
 #plt.gca().xaxis.set_major_locator(plt.NullLocator())
 #plt.gca().yaxis.set_major_locator(plt.NullLocator())

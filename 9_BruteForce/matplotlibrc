@@ -57,7 +57,7 @@
     ytick.minor.pad         :   4  # default 3.5 
  
     # Turn off the legend frame and reduce the space between the point and the label  
-    legend.frameon          :   True
+    legend.frameon          :   False
     legend.fancybox         :   False
     legend.edgecolor        :   inherit
-    legend.handletextpad    :   0.0
+    legend.handletextpad    :   0.25

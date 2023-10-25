@@ -24,7 +24,7 @@ for d in probs:
     nC[d] = []
 
 cm = 1/2.54  #centimeters in inches
-matplotlib.rcParams.update({'font.size': 7.370078})
+matplotlib.rcParams.update({'font.size': 9.98655939})
 fig = plt.figure()
 fig.set_figheight(4.2*cm)
 fig.set_figwidth(17*cm)
@@ -73,9 +73,12 @@ for dir in directories:
     t[plot] = (np.array(t[plot]) / 1000) + 16
 
 
-    ax.set_xlabel('$t$ / ps')
+    ax.set_ylim([-30, 650])
+    ax.set_xlabel('t [ps]', labelpad=1)
     if plot == 0:
-        ax.set_ylabel('$N$')
+        ax.set_ylabel('$N$', labelpad=1)
+    else:
+        ax.set_yticklabels([])
 
     nTotal = []
     for j in range(len(nC['pbct'][plot])):
@@ -86,13 +89,13 @@ for dir in directories:
     for d in probs:
         average = np.mean(nC[d][plot], axis=0)
         standDev = np.std(nC[d][plot], axis=0)
-        line = ax.plot(t[plot], average, label=d.replace('p', '').upper(), c=colorsRGB[indexColor])
+        line = ax.plot(t[plot], average, label=d.replace('p', '').upper(), c=colorsRGB[indexColor], lw=1)
         ax.fill_between(t[plot], average+standDev, average-standDev, alpha=0.25, color=line[0]._color)
         indexColor += 1
     
     aveTot = np.mean(nTotal, axis=0)
     stdTot = np.std(nTotal, axis=0)
-    line = ax.plot(t[plot], aveTot, label='Total Cluster', c='C7')
+    line = ax.plot(t[plot], aveTot, label='Total Cluster', c='black', lw=1)
     ax.fill_between(t[plot], aveTot+stdTot, aveTot-stdTot, alpha=0.25, color=line[0]._color)
     # ax.axvline(posV[s-1][0], c='C5', ls='--')
     # ax.axvline(posV[s-1][1], c='C6', ls='--')
@@ -100,8 +103,8 @@ for dir in directories:
     plot += 1
 #plt.axhline(nC[d][-1], 0, 16, ls='--', color='black')
 #plt.text(16-0.15, nC[d][-1]+1, '$N_c = '+str(nC[d][-1])+'$', ha='right')
-plt.legend(ncol=4, loc='upper center', bbox_to_anchor=(-2.4, 1.3))
-plt.subplots_adjust(left=0.07, right=0.99, top=0.8, bottom=0.2, wspace = 0.35)
+plt.legend(ncol=4, loc='upper center', bbox_to_anchor=(-2.4, 1.3), handlelength=1)
+plt.subplots_adjust(left=0.065, right=0.985, top=0.8, bottom=0.205, wspace = 0.3)
 #plt.tight_layout()
 #plt.ylim([0, 300])
 fig.savefig('compositionLong.pdf', pad_inches = 0.05)

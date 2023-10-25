@@ -24,7 +24,7 @@ for d in probs:
     nC[d] = []
 
 cm = 1/2.54  #centimeters in inches
-matplotlib.rcParams.update({'font.size': 7.370078})
+matplotlib.rcParams.update({'font.size': 9.98655939})
 fig = plt.figure()
 fig.set_figheight(4.2*cm)
 fig.set_figwidth(17*cm)
@@ -53,27 +53,30 @@ for s in range(1, 6):
     t[s-1] = np.array(t[s-1]) / 1000
 
 
-    ax.set_xlabel('$t$ / ps')
+    ax.set_xlabel('t [ps]', labelpad=1)
+    ax.set_ylim([-30, 650])
     if s-1 == 0:
-        ax.set_ylabel('$N$')
+        ax.set_ylabel('$N$', labelpad=1)
+    else:
+        ax.set_yticklabels([])
 
     nTotal = np.array(nC['pbct'][s-1]) + np.array(nC['pwrz'][s-1]) + np.array(nC['phbn'][s-1])
 
     colorsRGB = [(228/255,26/255,28/255), (77/255,175/255,74/255), (55/255,126/255,184/255)]
     indexColor = 0
     for d in probs:
-        ax.plot(t[s-1], nC[d][s-1], label=d.replace('p', '').upper(), c=colorsRGB[indexColor])
+        ax.plot(t[s-1], nC[d][s-1], label=d.replace('p', '').upper(), c=colorsRGB[indexColor], lw=1)
         indexColor += 1
 
-    ax.plot(t[s-1], nTotal, label='Total Cluster', c='C7')
-    ax.axvline(posV[s-1][0], c='black', ls='--')
-    ax.axvline(posV[s-1][1], c='black', ls='--')
-    ax.axvline(posV[s-1][2], c='black', ls='--')
-    ax.axvline(posV[s-1][3], c='black', ls='--')
+    ax.plot(t[s-1], nTotal, label='Total Cluster', c='black', lw=1)
+    ax.axvline(posV[s-1][0], c='C7', ls='--', dashes=(2, 2))
+    ax.axvline(posV[s-1][1], c='C7', ls='--', dashes=(2, 2))
+    ax.axvline(posV[s-1][2], c='C7', ls='--', dashes=(2, 2))
+    ax.axvline(posV[s-1][3], c='C7', ls='--', dashes=(2, 2))
 #plt.axhline(nC[d][-1], 0, 16, ls='--', color='black')
 #plt.text(16-0.15, nC[d][-1]+1, '$N_c = '+str(nC[d][-1])+'$', ha='right')
-plt.legend(ncol=4, loc='upper center', bbox_to_anchor=(-2.5, 1.3))
-plt.subplots_adjust(left=0.07, right=0.99, top=0.8, bottom=0.2, wspace = 0.35)
+plt.legend(ncol=4, loc='upper center', bbox_to_anchor=(-2.5, 1.4), handlelength=1)
+plt.subplots_adjust(left=0.065, right=0.985, top=0.8, bottom=0.205, wspace = 0.3)
 #plt.tight_layout()
 #plt.ylim([0, 300])
 fig.savefig('compositionBrute.pdf', pad_inches = 0.05)
