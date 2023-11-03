@@ -28,13 +28,24 @@ for d in directories:
     nC[d] = []
 
 for d in directories:
+    #Get values for title and figure name
+    crystal, temperature = re.findall(r"\w+K", d)[0].split('_')
+    _, inserted = re.findall(r"N_\w+", d)[0].split('_')
+    # number steps
+    nsteps = 8
+    if temperature == '1000K':
+        nsteps = 5
+    elif temperature == '1200K':
+        nsteps = 6
+    elif temperature == '1300K':
+        nsteps = 7
     t = []
     for i in range(1, 3):
-        for b in range(9):
+        for b in range(nsteps + 1):
             if i == 1:
                 t.append(b*1000)
             elif i == 2:
-                t.append(b*1000 + 8000)
+                t.append(b*1000 + nsteps*1000)
             #Count particles belonging to the cluster
             pipeline = import_file(d+'step'+str(i)+'/dump'+str(b*1000)+'.PROB.trj', multiple_frames=True)
             pipeline.modifiers.append(ExpressionSelectionModifier(expression='pbct > 0.5 || pwrz > 0.5 || phbn > 0.5'))
