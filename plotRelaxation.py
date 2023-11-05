@@ -73,5 +73,5 @@ for d in directories:
     plt.text(16-0.15, nC[d][-1]+nC[d][-1]/50, '$N_c = '+str(nC[d][-1])+'$', ha='right')
     #plt.legend()
     plt.tight_layout()
-    plt.savefig(d+'relaxation'+temperature+'.png')
+    plt.savefig(os.path.dirname(os.path.dirname(d))+'/'+'relaxation'+inserted+'.png')
     plt.close()

@@ -103,11 +103,11 @@ def computeProbabilityPerAtom(input_file):
     # print(input_file,np.mean(D_WRZ),np.mean(D_BCT),np.mean(D_MC),np.mean(D_SC))
 
 #Iterate through all files in Q directory
-list_file = sorted(glob.glob(inDir+'*/QValues/**/*.Q.trj', recursive=True))
+list_file = sorted(glob.glob(inDir+'**/QValues/**/*.Q.trj', recursive=True))
 for input_file in list_file:
     computeProbabilityPerAtom(input_file)
 
-#Iterate through all files in Q directory
-list_file = sorted(glob.glob(inDir+'QValues/**/*.Q.trj', recursive=True))
-for input_file in list_file:
-    computeProbabilityPerAtom(input_file)
+# #Iterate through all files in Q directory
+# list_file = sorted(glob.glob(inDir+'QValues/**/*.Q.trj', recursive=True))
+# for input_file in list_file:
+#     computeProbabilityPerAtom(input_file)
