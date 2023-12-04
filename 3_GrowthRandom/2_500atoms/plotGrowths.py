@@ -35,9 +35,6 @@ directories.sort(key=natural_keys)
 nC = dict()
 t = []
 
-#Variables growth part
-t2 = []
-
 cm = 1/2.54  #centimeters in inches
 matplotlib.rcParams.update({'font.size': 9.98655939})
 fig = plt.figure(figsize=(17*cm, 12*cm))
@@ -55,21 +52,27 @@ for s in subfigs:
 
 cB = -1
 cW = -1
-lims = [50, 75, 100, 150, 35]
+lims = [50, 75, 55, 55, 55]
 lims = list(reversed(lims))
 tfig = [None]*5
 sfig = [None]*5
 tempssub = [None]*5
+#Variables growth part
+t2 = [None]*5
+
 for i in range(5):
     tfig[i] = [None]*2
     sfig[i] = [None]*2
+    t2[i] = [None]*2
     tempssub[i] = [None]*2
     for b in range(2):
         tfig[i][b] = dict()
         sfig[i][b] = dict()
+        t2[i][b] = dict()
         tempssub[i][b] = []
 indexColor = 0
 for d in reversed(directories):
+    print(d)
     structure = 10
     if 'BCT' in d:
         cB += 1
@@ -141,12 +144,12 @@ for d in reversed(directories):
         dirSeeds.sort(key=natural_keys)
         tfig[indLim][structure][dT] = []
         sfig[indLim][structure][dT] = []
-        t2 = []
+        t2[indLim][structure][dT] = []
         # Get temperature values
         files = glob.glob(dirSeeds[0]+'dump*.PROB.trj')
         files.sort(key=natural_keys)
         for f in files:
-            t2.append(int(os.path.basename(f).replace('dump', '').replace('.PROB.trj', ''))/1000+10)
+            t2[indLim][structure][dT].append(int(os.path.basename(f).replace('dump', '').replace('.PROB.trj', ''))/1000+10)
         # Read cluster sizes for different seeds and compute average
         nSeed = []
         for dS in dirSeeds:
@@ -181,8 +184,8 @@ for i in range(5):
                 if tSubfigure[t] == tempssub[i][s][dT]:
                     indexColor = t
             key = tSubfigure[indexColor]
-            line = ax.plot(t2, tfig[i][s][key], label=tempssub[i][s][dT], c=colorsplasma[indexColor], lw=1)
-            ax.fill_between(t2, tfig[i][s][key]+sfig[i][s][key], tfig[i][s][key]-sfig[i][s][key], alpha=0.25, color=line[0]._color)
+            line = ax.plot(t2[i][s][key], tfig[i][s][key], label=tempssub[i][s][dT], c=colorsplasma[indexColor], lw=1)
+            ax.fill_between(t2[i][s][key], tfig[i][s][key]+sfig[i][s][key], tfig[i][s][key]-sfig[i][s][key], alpha=0.25, color=line[0]._color)
 
 
 # for d in reversed(directories):

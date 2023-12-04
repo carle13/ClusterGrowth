@@ -70,6 +70,7 @@ for i in range(5):
         tempssub[i][b] = []
 indexColor = 0
 for d in reversed(directories):
+    print(d)
     structure = 10
     if 'BCT' in d:
         cB += 1

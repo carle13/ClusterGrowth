@@ -32,7 +32,7 @@ fig.set_figwidth(17*cm)
 axs = fig.subplots(1, 5)
 
 ranges = [[0,2000], [0,2000], [0,2000], [0,2000], [0,2000]]
-posV = [[137,237,324,600], [280,348,500,845], [131,177,250,587], [201,316,400,800], [161,244,302,850]]
+posV = [[451], [329,480,901,2000], [371,930,1702,2000], [826,987,1773,2000], [1995]]
 
 for s in range(1, 6):
     ax = axs[s - 1]
@@ -54,7 +54,7 @@ for s in range(1, 6):
 
 
     ax.set_xlabel('t [ps]', labelpad=1)
-    ax.set_ylim([-5, 50])
+    ax.set_ylim([-4, 30])
     if s-1 == 0:
         ax.set_ylabel('$N$', labelpad=1)
     else:
@@ -69,10 +69,11 @@ for s in range(1, 6):
         indexColor += 1
 
     ax.plot(t[s-1], nTotal, label='Total Cluster', c='black', lw=1)
-    ax.axvline(posV[s-1][0], c='C7', ls='--', dashes=(2, 2))
-    ax.axvline(posV[s-1][1], c='C7', ls='--', dashes=(2, 2))
-    ax.axvline(posV[s-1][2], c='C7', ls='--', dashes=(2, 2))
-    ax.axvline(posV[s-1][3], c='C7', ls='--', dashes=(2, 2))
+    for r in range(len(posV[s-1])):
+        ax.axvline(posV[s-1][r], c='C7', ls='--', dashes=(2, 2))
+    # ax.axvline(posV[s-1][1], c='C7', ls='--', dashes=(2, 2))
+    # ax.axvline(posV[s-1][2], c='C7', ls='--', dashes=(2, 2))
+    # ax.axvline(posV[s-1][3], c='C7', ls='--', dashes=(2, 2))
 #plt.axhline(nC[d][-1], 0, 16, ls='--', color='black')
 #plt.text(16-0.15, nC[d][-1]+1, '$N_c = '+str(nC[d][-1])+'$', ha='right')
 plt.legend(ncol=4, loc='upper center', bbox_to_anchor=(-2.5, 1.4), handlelength=1)
