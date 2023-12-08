@@ -40,8 +40,8 @@ t2 = []
 
 cm = 1/2.54  #centimeters in inches
 matplotlib.rcParams.update({'font.size': 9.98655939})
-fig = plt.figure(figsize=(17*cm, 12*cm))
-subfigs = fig.subfigures(3, 2, hspace=0, wspace=0).flatten()
+fig = plt.figure(figsize=(17*cm, 8*cm))
+subfigs = fig.subfigures(2, 2, hspace=0, wspace=0).flatten()
 
 axs = []
 for s in subfigs:
@@ -55,12 +55,12 @@ for s in subfigs:
 
 cB = -1
 cW = -1
-lims = [50, 75, 100, 150, 150]
+lims = [85, 130, 160]
 lims = list(reversed(lims))
-tfig = [None]*5
-sfig = [None]*5
-tempssub = [None]*5
-for i in range(5):
+tfig = [None]*3
+sfig = [None]*3
+tempssub = [None]*3
+for i in range(3):
     tfig[i] = [None]*2
     sfig[i] = [None]*2
     tempssub[i] = [None]*2
@@ -117,8 +117,8 @@ for d in reversed(directories):
     #Draw plot
     #plt.title('Cluster size '+crystal+' (Relaxed at '+temperature+')\nInserted atoms: '+inserted)
     ax.set_xlabel('t [ps]', labelpad=0)
-    ax.axvline(7, ls='-.', color='black', alpha=0.3)
-    ax.axvline(14, ls='-.', color='black', alpha=0.3)
+    ax.axvline(6, ls='-.', color='black', alpha=0.3)
+    ax.axvline(12, ls='-.', color='black', alpha=0.3)
     trans = transforms.blended_transform_factory(ax.transData, ax.transAxes)
     #plt.text(8-7, 0.99, 'Step 1', va='top', transform=trans)
     #plt.text(16-7, 0.99, 'Step 2', va='top', transform=trans)
@@ -170,7 +170,7 @@ for d in reversed(directories):
 
 cB = 0
 cW = 0
-for i in range(5):
+for i in range(3):
     tSubfigure = [element for b in range(len(tempssub[i])) for element in tempssub[i][b]]
     tSubfigure = sorted(list(set(tSubfigure)))
     colorsplasma = plt.cm.plasma(np.linspace(0, 1, len(tSubfigure)))
@@ -247,5 +247,5 @@ plt.subplots_adjust(left=0.13, right=0.7, top=0.87, bottom=0.205, hspace = 2, ws
 #plt.margins(0,0)
 #plt.gca().xaxis.set_major_locator(plt.NullLocator())
 #plt.gca().yaxis.set_major_locator(plt.NullLocator())
-fig.savefig('growthPlots.png',
+fig.savefig('growthPlots.pdf',
     pad_inches = 0.05)

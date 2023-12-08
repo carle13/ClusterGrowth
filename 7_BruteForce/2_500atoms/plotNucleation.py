@@ -31,7 +31,7 @@ fig.set_figwidth(17*cm)
 
 axs = fig.subplots(1, 5)
 
-ranges = [[0,2000], [0,2000], [0,2000], [0,2000], [0,2000]]
+ranges = [[0,6500], [0,6500], [0,6500], [0,6500], [0,6500]]
 posV = [[451], [329,480,901,2000], [371,930,1702,2000], [826,987,1773,2000], [1995]]
 
 for s in range(1, 6):
@@ -39,7 +39,7 @@ for s in range(1, 6):
     seed = 11111 * s
     for d in probs:
         vals = []
-        for b in range(ranges[s-1][0], ranges[s-1][1], 20):
+        for b in range(ranges[s-1][0], ranges[s-1][1], 60):
             if d == 'pbct':
                 t[s-1].append(b*1000)
             #Count particles belonging to the cluster
@@ -54,7 +54,7 @@ for s in range(1, 6):
 
 
     ax.set_xlabel('t [ps]', labelpad=1)
-    ax.set_ylim([-4, 30])
+    ax.set_ylim([-4, 50])
     if s-1 == 0:
         ax.set_ylabel('$N$', labelpad=1)
     else:

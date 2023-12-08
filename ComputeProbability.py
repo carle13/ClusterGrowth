@@ -85,6 +85,8 @@ def computeProbabilityPerAtom(input_file):
     # Read q values from input files
     pos=np.genfromtxt(input_file,skip_header=9)
     q=pos[:,6:]
+    #Replace nan values by zero
+    q = np.nan_to_num(q)
     # Predict probabilities for all atoms in the system
     try:
         probs = model.predict_proba(q)
