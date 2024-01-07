@@ -3,11 +3,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-#sizeBCT = np.array([32, 66, 92, 175, 348])
 sizeWRZ = np.array([500, 1000, 1500, 2000])
-
-#critBCT = np.array([1304.6875, 1367.1875, 1398.4375, 1414.0625, 1429.6875])
-#errBCT = np.array([7.8125, 7.8125, 7.8125, 7.8125, 7.8125])
 
 # brute force ratio: 0.653146541
 meltWRZ = np.array([1212.528782538, 1401.342664, 1503.49301192, 1531.0499834])

@@ -1,0 +1,522 @@
+Loading lammps/20210929-mpi
+  Loading requirement: intel-compilers/19.1.3 intel-mpi/2019.9
+33333
+LAMMPS (11 Aug 2017)
+Reading data file ...
+  orthogonal box = (-30 -30 -30) to (30 30 30)
+  2 by 4 by 5 MPI processor grid
+  reading atoms ...
+  1500 atoms
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+105  105
+WARNING: 9 of 1001 force values in table are inconsistent with -dE/dr.
+  Should only be flagged at inflection points (../pair_table.cpp:481)
+WARNING: 13 of 1001 force values in table are inconsistent with -dE/dr.
+  Should only be flagged at inflection points (../pair_table.cpp:481)
+WARNING: 4 of 1001 force values in table are inconsistent with -dE/dr.
+  Should only be flagged at inflection points (../pair_table.cpp:481)
+Setting atom values ...
+  750 settings made for charge
+Setting atom values ...
+  750 settings made for charge
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (../min.cpp:168)
+Ewald initialization ...
+WARNING: Using 12-bit tables for long-range coulomb (../kspace.cpp:321)
+  G vector (1/distance) = 0.533657
+  estimated absolute RMS force accuracy = 1.83487e-05
+  estimated relative force accuracy = 1.27425e-06
+  KSpace vectors: actual max1d max3d = 75277 33 150381
+                  kxmax kymax kzmax  = 33 33 33
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 15 15 15
+  23 neighbor lists, perpetual/occasional/extra = 23 0 0
+  (1) pair table, perpetual, half/full from (3)
+      attributes: half, newton on
+      pair build: halffull/newton
+      stencil: none
+      bin: none
+  (2) pair coul/long, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (3) pair lars_3B_f1, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+  (4) pair Lars_NB_00, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (5) pair Lars_NB_01, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (6) pair Lars_NB_02, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (7) pair Lars_NB_03, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (8) pair Lars_NB_04, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (9) pair Lars_NB_05, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (10) pair Lars_NB_06, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (11) pair Lars_NB_07, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (12) pair Lars_NB_08, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (13) pair Lars_NB_09, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (14) pair Lars_NB_10, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (15) pair Lars_NB_11, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (16) pair Lars_NB_12, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (17) pair Lars_NB_13, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (18) pair Lars_NB_14, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (19) pair Lars_NB_15, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (20) pair Lars_NB_16, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (21) pair Lars_NB_17, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (22) pair Lars_NB_18, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (23) pair Lars_NB_19, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 0
+Per MPI rank memory allocation (min/avg/max) = 27.79 | 72.36 | 87.71 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0    -5469.415            0    -5469.415   -1266.7468 
+      31            0   -5755.6457            0   -5755.6457   -232.93235 
+Loop time of 51.4589 on 40 procs for 31 steps with 1500 atoms
+
+99.7% CPU use with 40 MPI tasks x no OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+        -5469.41499478     -5755.28235921     -5755.64571421
+  Force two-norm initial, final = 71.5913 2.77578
+  Force max component initial, final = 7.52962 1.0967
+  Final line search alpha, max atom move = 0.0711583 0.0780396
+  Iterations, force evaluations = 31 38
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.00053308 | 42.525     | 44.802     | 149.6 | 82.64
+Kspace  | 1.5978     | 4.5076     | 46.354     | 455.7 |  8.76
+Neigh   | 5.5002e-06 | 0.00017928 | 0.0016338  |   0.0 |  0.00
+Comm    | 0.00014601 | 1.9159     | 4.9268     | 145.5 |  3.72
+Output  | 0.043179   | 0.051448   | 0.074009   |   2.2 |  0.10
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 2.459      |            |       |  4.78
+
+Nlocal:    37.5 ave 304 max 0 min
+Histogram: 29 4 1 2 0 1 1 0 0 2
+Nghost:    240.925 ave 924 max 0 min
+Histogram: 15 6 5 3 4 2 2 1 1 1
+Neighs:    2255.7 ave 21248 max 0 min
+Histogram: 32 2 2 0 0 2 0 0 0 2
+FullNghs:  4511.4 ave 43935 max 0 min
+Histogram: 32 1 3 0 1 1 0 0 1 1
+
+Total # of neighbors = 180456
+Ave neighs/atom = 120.304
+Neighbor list builds = 1
+Dangerous builds = 0
+System init for write_data ...
+Ewald initialization ...
+WARNING: Using 12-bit tables for long-range coulomb (../kspace.cpp:321)
+  G vector (1/distance) = 0.533657
+  estimated absolute RMS force accuracy = 1.83487e-05
+  estimated relative force accuracy = 1.27425e-06
+  KSpace vectors: actual max1d max3d = 75277 33 150381
+                  kxmax kymax kzmax  = 33 33 33
+Total wall time: 0:00:53

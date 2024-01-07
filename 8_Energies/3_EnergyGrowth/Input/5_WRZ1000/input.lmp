@@ -1,0 +1,24 @@
+###| Initial box
+units           metal
+dimension       3
+boundary        p p p 
+atom_style      charge
+
+read_data	cluster${seed}.data
+
+include         POT.lammps
+
+mass            2 65.38
+mass            1 15.999
+
+set                     type 2 charge $(2*0.3227506)
+set                     type 1 charge $(-2*0.3227506)
+
+kspace_style    ewald  0.000001
+
+dump            001 all custom 1 minim${seed}/dump*.trj id type x y z
+dump_modify     001 sort id
+
+minimize        1.0e-4 1.0e-6 1000 10000
+
+write_data minimized${seed}.data

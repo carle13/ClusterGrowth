@@ -1,0 +1,246 @@
+LAMMPS (11 Aug 2017)
+###| Initial box
+units           metal
+dimension       3
+boundary        p p p
+atom_style      charge
+
+read_data	nano.data
+  orthogonal box = (-30 -30 -30) to (30 30 30)
+  2 by 4 by 5 MPI processor grid
+  reading atoms ...
+  1500 atoms
+  reading velocities ...
+  1500 velocities
+
+include         POT.lammps
+pair_style hybrid/overlay table linear 1000 coul/long 6 lars_3B_f1 Lars_NB_00 Lars_NB_01 Lars_NB_02 Lars_NB_03 Lars_NB_04 Lars_NB_05 Lars_NB_06 Lars_NB_07 Lars_NB_08 Lars_NB_09 Lars_NB_10 Lars_NB_11 Lars_NB_12 Lars_NB_13 Lars_NB_14 Lars_NB_15 Lars_NB_16 Lars_NB_17 Lars_NB_18 Lars_NB_19
+pair_coeff * * coul/long
+pair_coeff      * *  lars_3B_f1      	../zPOT/FeAu_f1.sw Fe Au
+pair_coeff      1 1  table           	../zPOT/out2B_0.txt LARS_2B 6
+WARNING: 9 of 1001 force values in table are inconsistent with -dE/dr.
+  Should only be flagged at inflection points (../pair_table.cpp:481)
+pair_coeff      2 2  table           	../zPOT/out2B_1.txt LARS_2B 6
+WARNING: 13 of 1001 force values in table are inconsistent with -dE/dr.
+  Should only be flagged at inflection points (../pair_table.cpp:481)
+pair_coeff      1 2  table           	../zPOT/out2B_2.txt LARS_2B 6
+WARNING: 4 of 1001 force values in table are inconsistent with -dE/dr.
+  Should only be flagged at inflection points (../pair_table.cpp:481)
+pair_coeff      * *  Lars_NB_00 	../zPOT/LassoLars_0_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_01 	../zPOT/LassoLars_1_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_02 	../zPOT/LassoLars_2_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_03 	../zPOT/LassoLars_3_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_04 	../zPOT/LassoLars_4_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_05 	../zPOT/LassoLars_5_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_06 	../zPOT/LassoLars_6_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_07 	../zPOT/LassoLars_7_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_08 	../zPOT/LassoLars_8_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_09 	../zPOT/LassoLars_9_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_10 	../zPOT/LassoLars_10_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_11 	../zPOT/LassoLars_11_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_12 	../zPOT/LassoLars_12_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_13 	../zPOT/LassoLars_13_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_14 	../zPOT/LassoLars_14_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_15 	../zPOT/LassoLars_15_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_16 	../zPOT/LassoLars_16_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_17 	../zPOT/LassoLars_17_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_18 	../zPOT/LassoLars_18_1.eam.fs Fe Au
+pair_coeff      * *  Lars_NB_19 	../zPOT/LassoLars_19_1.eam.fs Fe Au
+
+mass            2 65.38
+mass            1 15.999
+
+set                     type 2 charge $(2*0.3227506)
+set                     type 2 charge 0.6455011999999999972
+  750 settings made for charge
+set                     type 1 charge $(-2*0.3227506)
+set                     type 1 charge -0.6455011999999999972
+  750 settings made for charge
+
+kspace_style    ewald  0.000001
+
+dump            001 all custom 1 minim/dump*.trj id type x y z
+dump_modify     001 sort id
+
+minimize        1.0e-4 1.0e-6 1000 10000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (../min.cpp:168)
+Ewald initialization ...
+WARNING: Using 12-bit tables for long-range coulomb (../kspace.cpp:321)
+  G vector (1/distance) = 0.533657
+  estimated absolute RMS force accuracy = 1.83487e-05
+  estimated relative force accuracy = 1.27425e-06
+  KSpace vectors: actual max1d max3d = 75277 33 150381
+                  kxmax kymax kzmax  = 33 33 33
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 15 15 15
+  23 neighbor lists, perpetual/occasional/extra = 23 0 0
+  (1) pair table, perpetual, half/full from (3)
+      attributes: half, newton on
+      pair build: halffull/newton
+      stencil: none
+      bin: none
+  (2) pair coul/long, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (3) pair lars_3B_f1, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+  (4) pair Lars_NB_00, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (5) pair Lars_NB_01, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (6) pair Lars_NB_02, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (7) pair Lars_NB_03, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (8) pair Lars_NB_04, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (9) pair Lars_NB_05, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (10) pair Lars_NB_06, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (11) pair Lars_NB_07, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (12) pair Lars_NB_08, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (13) pair Lars_NB_09, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (14) pair Lars_NB_10, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (15) pair Lars_NB_11, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (16) pair Lars_NB_12, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (17) pair Lars_NB_13, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (18) pair Lars_NB_14, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (19) pair Lars_NB_15, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (20) pair Lars_NB_16, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (21) pair Lars_NB_17, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (22) pair Lars_NB_18, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (23) pair Lars_NB_19, perpetual, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+Per MPI rank memory allocation (min/avg/max) = 27.79 | 75.37 | 87.68 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0    174.87892   -5603.0168            0    -5569.132   -617.97165 
+      16    174.87892   -5711.8227            0    -5677.938    556.66762 
+Loop time of 13.2127 on 40 procs for 16 steps with 1500 atoms
+
+99.7% CPU use with 40 MPI tasks x no OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+        -5603.01675683     -5711.47210845     -5711.82271648
+  Force two-norm initial, final = 42.0476 4.27617
+  Force max component initial, final = 2.90787 2.24181
+  Final line search alpha, max atom move = 0.116001 0.260052
+  Iterations, force evaluations = 16 17
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 11.288     | 11.291     | 11.301     |   0.1 | 85.46
+Kspace  | 0.46264    | 0.76241    | 1.8718     |  52.8 |  5.77
+Neigh   | 5.4201e-06 | 0.00016923 | 0.00084966 |   0.0 |  0.00
+Comm    | 0.00042683 | 0.29434    | 1.3033     |  76.5 |  2.23
+Output  | 0.016793   | 0.020957   | 0.03159    |   1.7 |  0.16
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.8436     |            |       |  6.38
+
+Nlocal:    37.5 ave 180 max 0 min
+Histogram: 28 0 0 0 0 8 0 0 0 4
+Nghost:    277.925 ave 829 max 15 min
+Histogram: 8 16 4 0 0 0 8 0 0 4
+Neighs:    2206.38 ave 11768 max 0 min
+Histogram: 28 0 1 3 0 4 0 0 0 4
+FullNghs:  4412.75 ave 23103 max 0 min
+Histogram: 28 0 0 0 8 0 0 0 0 4
+
+Total # of neighbors = 176510
+Ave neighs/atom = 117.673
+Neighbor list builds = 1
+Dangerous builds = 0
+
+write_data minimized.data
+Ewald initialization ...
+WARNING: Using 12-bit tables for long-range coulomb (../kspace.cpp:321)
+  G vector (1/distance) = 0.533657
+  estimated absolute RMS force accuracy = 1.83487e-05
+  estimated relative force accuracy = 1.27425e-06
+  KSpace vectors: actual max1d max3d = 75277 33 150381
+                  kxmax kymax kzmax  = 33 33 33
+Total wall time: 0:00:15
